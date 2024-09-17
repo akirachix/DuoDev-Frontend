@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { FcGoogle } from "react-icons/fc";
-export default function SignUp() {
+export default function SignIn() {
     return(
         <div className="border-2 border-artisticblue my-10 md:mx-[20%] mx-[5%] px-10 py-6 rounded-[10px]">
             <h1 className="lg:text-[40px] md:text-[30px] sm:text-[20px] text-center pb-5 text-artisticblue">Sign  in  to  Eco-Threads Hub</h1>
