@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense  } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from "zod";
@@ -58,16 +58,19 @@ useEffect(() => {
     }
 }, [username]);
 
-const { register, handleSubmit, formState: { errors, isSubmitting }, watch } = useForm<z.infer<typeof validationSchema>>({
+const { register, handleSubmit, formState: { errors, isSubmitting }, } = useForm<z.infer<typeof validationSchema>>({
     resolver: zodResolver(validationSchema),
     mode: "onChange",
 });
 
 const onSubmit = async (data: z.infer<typeof validationSchema>) => {
+    
     if (role && usernameAvailable) {
     const userData = { ...data, role };
+    
     try {
         const response = await userSignup(userData);
+        
         if (response.data?.username) {
         router.push('/success');
         } else {
@@ -81,107 +84,116 @@ const onSubmit = async (data: z.infer<typeof validationSchema>) => {
 };
 
 return (
-    <div className="lg:grid grid-cols-2 gap-3 px-5">
-    <div className='mt-5'>
-        <form onSubmit={handleSubmit(onSubmit)} className="lg:px-[5%] md:px-[10%] px-2 mt-12">
-        <h1 className="lg:text-[40px] text-[24px] text-center mb-2 text-artisticblue">Sign Up to Eco-Threads Hub</h1>
-        <div className="md:grid grid-cols-2 gap-2 mb-5">
-            <div className='md:mb-0 mb-7'>
-            <input
-                type="text"
-                {...register("first_name")}
-                placeholder="First Name"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-            />
-            {errors?.first_name?.message && <p className="text-red-500 ml-2 text-sm">{errors?.first_name?.message}</p>}
-            </div>
-            <div>
-            <input
-                type="text"
-                {...register("last_name")}
-                placeholder="Last Name"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-            />
-            {errors?.last_name?.message && <p className="text-red-500 ml-2 text-sm">{errors?.last_name?.message}</p>}
-            </div>
-        </div>
-        <div className="flex flex-col gap-7">
-            <div>
-            <input
-                type="text"
-                {...register("username")}
-                placeholder="Username"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-                onChange={(e) => setUsername(e.target.value)}
-            />
-            {errors?.username?.message && <p className="text-red-500 ml-2 text-sm">{errors?.username?.message}</p>}
-            </div>
-            <div>
-            <input
-                type="text"
-                {...register("phone_number")}
-                placeholder="Phone Number 254 .."
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-            />
-            {errors?.phone_number?.message && <p className="text-red-500 ml-2 text-sm">{errors?.phone_number?.message}</p>}
-            </div>
-            <div className="relative">
-            <input
-                type={showPassword ? "text" : "password"} // Toggle type
-                {...register("set_password")}
-                placeholder="Set Password"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-            />
-            <span
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute top-1/2 right-3 cursor-pointer transform -translate-y-1/2"
-            >
-                <div className="text-artisticblue">{showPassword ? <IoEyeOutline /> : <FaRegEyeSlash />}</div>
-            </span>
-            {errors?.set_password?.message && <p className="text-red-500 ml-2 text-sm">{errors?.set_password?.message}</p>}
-            </div>
-            <div className="relative">
-            <input
-                type={showPassword ? "text" : "password"}
-                {...register("password")}
-                placeholder="Confirm Password"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-            />
-            {errors?.password?.message && <p className="text-red-500 ml-2 text-sm">{errors?.password?.message}</p>}
-            <span
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute top-1/2 right-3 cursor-pointer transform -translate-y-1/2"
-            >
-                <div className="text-artisticblue">{showPassword ? <IoEyeOutline /> : <FaRegEyeSlash />}</div>
-            </span>
-            </div>
-        </div>
-        <button
-            type="submit"
-            className="bg-forestgreen text-white rounded-[10px] px-3 mt-4 py-5 w-full ${isSubmitting ? 'opacity-50' : ''}"
-        >
-            {isSubmitting ? 'Submitting...' : 'Sign Up'}
-        </button>
-        <h1 className="text-center text-[16px] mt-4">
-            Already Have an Account<br />
-            <Link href={"/auth/signIn"}>
-            <span className="text-artisticblue underline">Sign In</span>
-            </Link>
-        </h1>
-        </form>
-    </div>
     <div>
-        <div className="mt-5">
-        <Image
-            src="/picture2.jpeg"
-            alt="signup image"
-            width={700}
-            height={600}
-        />
+
+        <Suspense fallback={<div>Loading...</div>}>
+        <div className="lg:grid grid-cols-2 gap-3 px-5">
+        <div className='mt-5'>
+            <form onSubmit={handleSubmit(onSubmit)} className="lg:px-[5%] md:px-[10%] px-2 mt-12">
+            <h1 className="lg:text-[40px] text-[24px] text-center mb-2 text-artisticblue">Sign Up to Eco-Threads Hub</h1>
+            <div className="md:grid grid-cols-2 gap-2 mb-5">
+                <div className='md:mb-0 mb-7'>
+                <input
+                    type="text"
+                    {...register("first_name")}
+                    placeholder="First Name"
+                    className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                />
+                {errors?.first_name?.message && <p className="text-red-500 ml-2 text-sm">{errors?.first_name?.message}</p>}
+                </div>
+                <div>
+                <input
+                    type="text"
+                    {...register("last_name")}
+                    placeholder="Last Name"
+                    className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                />
+                {errors?.last_name?.message && <p className="text-red-500 ml-2 text-sm">{errors?.last_name?.message}</p>}
+                </div>
+            </div>
+            <div className="flex flex-col gap-7">
+                <div>
+                <input
+                    type="text"
+                    {...register("username")}
+                    placeholder="Username"
+                    className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                {errors?.username?.message && <p className="text-red-500 ml-2 text-sm">{errors?.username?.message}</p>}
+                </div>
+                <div>
+                <input
+                    type="text"
+                    {...register("phone_number")}
+                    placeholder="Phone Number 254 .."
+                    className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                />
+                {errors?.phone_number?.message && <p className="text-red-500 ml-2 text-sm">{errors?.phone_number?.message}</p>}
+                </div>
+                <div className="relative">
+                <input
+                    type={showPassword ? "text" : "password"} // Toggle type
+                    {...register("set_password")}
+                    placeholder="Set Password"
+                    className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                />
+                <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute top-1/2 right-3 cursor-pointer transform -translate-y-1/2"
+                >
+                    <div className="text-artisticblue">{showPassword ? <IoEyeOutline /> : <FaRegEyeSlash />}</div>
+                </span>
+                {errors?.set_password?.message && <p className="text-red-500 ml-2 text-sm">{errors?.set_password?.message}</p>}
+                </div>
+                <div className="relative">
+                <input
+                    type={showPassword ? "text" : "password"}
+                    {...register("password")}
+                    placeholder="Confirm Password"
+                    className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                />
+                {errors?.password?.message && <p className="text-red-500 ml-2 text-sm">{errors?.password?.message}</p>}
+                <span
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute top-1/2 right-3 cursor-pointer transform -translate-y-1/2"
+                >
+                    <div className="text-artisticblue">{showPassword ? <IoEyeOutline /> : <FaRegEyeSlash />}</div>
+                </span>
+                </div>
+            </div>
+            <button
+                type="submit"
+                className="bg-forestgreen text-white rounded-[10px] px-3 mt-4 py-5 w-full ${isSubmitting ? 'opacity-50' : ''}"
+            >
+                {isSubmitting ? 'Submitting...' : 'Sign Up'}
+            </button>
+            <h1 className="text-center text-[16px] mt-4">
+                Already Have an Account<br />
+                <Link href={"/auth/signIn"}>
+                <span className="text-artisticblue underline">Sign In</span>
+                </Link>
+            </h1>
+            </form>
         </div>
+        <div>
+            <div className="mt-5">
+            <Image
+                src="/picture2.jpeg"
+                alt="signup image"
+                width={700}
+                height={600}
+            />
+            </div>
+        </div>
+        <ToastContainer />
+        </div>
+
+
+
+        </Suspense>
     </div>
-    <ToastContainer />
-    </div>
+    
 );
 }
 
