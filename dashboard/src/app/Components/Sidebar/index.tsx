@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+// import Image from "/logo.jpeg";+
 import Image from "next/image";
 
 
@@ -20,7 +21,7 @@ export default function Sidebar() {
         <ul className="mt-5 space-y-6">
 
         <Image
-        src={"/logo.jpeg"}
+        src="/logo.jpeg"
         width={230}
         height={200}
         alt="Eco-Threads logo"
