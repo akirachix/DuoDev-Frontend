@@ -30,8 +30,8 @@ export const metadata: Metadata = {
     }
   ],
   icons: [
-    { rel: "apple-touch-icon", url: "/logo.png"  },
-    { rel: "icon", url: "/logo.png" },
+    { rel: "apple-touch-icon", url: "/ecohublogo.svg"  },
+    { rel: "icon", url: "/ecohublogo.svg" },
   ],
   };
 
@@ -44,8 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         {children}
       </body>
     </html>
