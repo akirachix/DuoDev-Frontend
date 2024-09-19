@@ -1,0 +1,17 @@
+{
+    "name": "Eco-Threads",
+    "short_name": "Eco-Threads",
+    "description": "An eco-friendly marketplace for textiles.",
+    "icons": [
+        {
+            "src": "/logo.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        }
+    ],
+    "theme_color": "#002A3D",
+    "background_color": "#ffffff",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary"
+}

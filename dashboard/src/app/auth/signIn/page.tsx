@@ -6,7 +6,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaRegEyeSlash } from 'react-icons/fa';
 import { IoEyeOutline } from 'react-icons/io5';
 import { userLogin } from '../../utils/auth'; 
-import { setCookie} from 'cookies-next';
+import { getCookie} from 'cookies-next';
 import Image from 'next/image';
 
 // Define the Sign in component
@@ -36,12 +36,12 @@ export default function SignIn() {
                 setError('');
 
                 // Set the user data cookie
-                setCookie('userData', JSON.stringify(data), { path: '/' });
+                const role = getCookie('role');
 
                 // Redirect based on user role
-                if (data.role === 'seller') {
+                if (role === 'seller') {
                     window.location.href = '/seller';
-                } else if (data.role === 'recycler') {
+                } else if (role === 'recycler') {
                     window.location.href = '/recycler';
                 } else {
                     window.location.href = '/public';
@@ -57,8 +57,8 @@ export default function SignIn() {
 
     // Render the Sign in form
     return (
-        <div className="lg:grid grid-cols-2 gap-3 px-5">
-            <div className="border-2 border-artisticblue my-20 md:mx-[10%] mx-[5%] px-10 py-6 rounded-[10px]">
+        <div className="lg:grid grid-cols-2 gap-3 px-5 ">
+            <div className="border-2 border-artisticblue my-2  mt-20 md:mx-[10%] mx-[5%] px-10 py-6 rounded-[10px] h-[430px]">
                 <h1 className="lg:text-[40px] md:text-[30px] sm:text-[20px] text-center pb-5 text-artisticblue">Sign in to Eco-Threads Hub</h1>
                 <form onSubmit={handleLogin}>
                     <div className="flex flex-col gap-6 pb-5">
@@ -107,8 +107,8 @@ export default function SignIn() {
                 <Image
                     src="/picture2.jpeg"
                     alt="signup image"
-                    width={700}
-                    height={600}
+                    width={600}
+                    height={300}
                 />
             </div>
         </div>

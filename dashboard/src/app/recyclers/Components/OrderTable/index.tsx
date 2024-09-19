@@ -60,7 +60,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
       {/* Pagination controls */}
       <div className="flex justify-between items-center mt-4">
         <button
-          className="px- py-2 bg-gray-200 text-white bg-forestgreen rounded-md disabled:opacity-50"
+          className="px-3 py-2 text-white bg-forestgreen rounded-md disabled:opacity-50"
           onClick={prevPage}
           disabled={currentPage === 1}
         >
@@ -72,7 +72,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
         </span>
 
         <button
-          className="px-4 py-2 bg-gray-200 text-white bg-forestgreen rounded-md disabled:opacity-50"
+          className="px-3 py-2  text-white bg-forestgreen rounded-md disabled:opacity-50"
           onClick={nextPage}
           disabled={currentPage === totalPages}
         >

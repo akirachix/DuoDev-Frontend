@@ -15,7 +15,6 @@ const useGetOrders = () => {
     const fetchOrders = async () => {
       try {
         const data = await getOrders(); 
-        console.log({data});
         
         setOrders(data?.data); 
 
