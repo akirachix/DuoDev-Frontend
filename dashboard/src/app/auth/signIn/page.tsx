@@ -58,7 +58,7 @@ export default function SignIn() {
     // Render the Sign in form
     return (
         <div className="lg:grid grid-cols-2 gap-3 px-5">
-            <div className="border-2 border-artisticblue my-20 md:mx-[30%] mx-[5%] px-10 py-6 rounded-[10px]">
+            <div className="border-2 border-artisticblue my-20 md:mx-[10%] mx-[5%] px-10 py-6 rounded-[10px]">
                 <h1 className="lg:text-[40px] md:text-[30px] sm:text-[20px] text-center pb-5 text-artisticblue">Sign in to Eco-Threads Hub</h1>
                 <form onSubmit={handleLogin}>
                     <div className="flex flex-col gap-6 pb-5">
