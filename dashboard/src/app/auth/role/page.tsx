@@ -50,27 +50,4 @@ export default function ChooseRole() {
         </div>
     );
 }
-    {/* <h1 className="text-3xl font-bold mb-4">Choose Your Role</h1>
 
-            <div className="space-y-4">
-                <Link
-                    href="/auth/signUp?role=seller"
-                    className="bg-blue-500 text-white py-2 px-4 rounded"
-                >
-                    Sign Up as Seller
-                </Link>
-
-                <Link
-                    href="/auth/signUp?role=recycler"
-                    className="bg-green-500 text-white py-2 px-4 rounded"
-                >
-                    Sign Up as Recycler
-                </Link>
-
-                <Link
-                    href="/auth/signUp?role=public"
-                    className="bg-gray-500 text-white py-2 px-4 rounded"
-                >
-                    Sign Up as Public User
-                </Link>
-            </div> */}

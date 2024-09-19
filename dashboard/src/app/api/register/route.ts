@@ -16,10 +16,10 @@ export async function POST(request: NextRequest) {
 
     try {
         // Parse JSON request body
-        const { username, first_name, last_name, password, role } = await request.json();
+        const { username, first_name, last_name, password, role, phone_number } = await request.json();
 
         // Validate required fields
-        if (!username || !first_name || !last_name || !password || !role) {
+        if (!username || !first_name || !last_name || !password || !role || !phone_number) {
             console.error('Validation failed: Missing fields');
             return NextResponse.json(
                 { error: 'All fields are required .' },
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, first_name, last_name, password, role }),
+            body: JSON.stringify({ username, first_name, last_name, phone_number, password, role }),
         });
 
         // Log the full response for debugging
