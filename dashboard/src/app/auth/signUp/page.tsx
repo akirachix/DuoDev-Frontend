@@ -12,6 +12,8 @@ import { userSignup } from '@/app/utils/usersignup';
 import Image from 'next/image';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { setCookie } from 'cookies-next';
+
 
 const validationSchema = z.object({
 first_name: z.string().min(1, { message: "First name is required" }).max(50),
@@ -65,25 +67,31 @@ const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<
 
 const onSubmit = async (data: z.infer<typeof validationSchema>) => {
     if (role && usernameAvailable) {
-    const userData = { ...data, role };
-    try {
-        const response = await userSignup(userData);
-        if (response.data?.username) {
-        router.push('/success');
-        } else {
-        toast.error('Signup failed. Please try again.');
+        const userData = { ...data, role };
+        try {
+            const response = await userSignup(userData);
+
+            if (response.data?.username) {
+                // Set the user data cookie
+                setCookie('role', role);
+
+                router.push('/auth/signIn');
+            } else {
+                toast.error('Signup failed. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error during signup:', error);
+            toast.error((error as Error).message);
         }
-    } catch (error) {
-        console.error('Error during signup:', error);
-        toast.error((error as Error).message);
     }
+    else{
+        alert("You have no Choosen role ");
     }
 };
-
 return (
     <div className="lg:grid grid-cols-2 gap-3 px-5">
     <div className='mt-2'>
-        <form onSubmit={handleSubmit(onSubmit)} className="lg:px-[5%] md:px-[10%] px-2 mt-12">
+        <form onSubmit={handleSubmit(onSubmit)} className="lg:px-[5%] md:px-[10%] px-2 mt-3">
         <h1 className="lg:text-[40px] text-[24px] text-center mb-2 text-artisticblue">Sign Up to Eco-Threads Hub</h1>
         <div className="md:grid grid-cols-2 gap-2 mb-5">
             <div className='md:mb-0 mb-7'>
