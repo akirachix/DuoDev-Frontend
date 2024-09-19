@@ -6,7 +6,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { FaRegEyeSlash } from 'react-icons/fa';
 import { IoEyeOutline } from 'react-icons/io5';
 import { userLogin } from '../../utils/auth'; 
-import { setCookie, getCookie } from 'cookies-next';
+import { setCookie} from 'cookies-next';
 import Image from 'next/image';
 
 // Define the Sign in component
@@ -58,7 +58,7 @@ export default function SignIn() {
     // Render the Sign in form
     return (
         <div className="lg:grid grid-cols-2 gap-3 px-5">
-            <div className="border-2 border-artisticblue my-20 md:mx-[10%] mx-[5%] px-10 py-6 rounded-[10px]">
+            <div className="border-2 border-artisticblue my-20 md:mx-[30%] mx-[5%] px-10 py-6 rounded-[10px]">
                 <h1 className="lg:text-[40px] md:text-[30px] sm:text-[20px] text-center pb-5 text-artisticblue">Sign in to Eco-Threads Hub</h1>
                 <form onSubmit={handleLogin}>
                     <div className="flex flex-col gap-6 pb-5">
@@ -99,7 +99,7 @@ export default function SignIn() {
                     </div>
                 </Link>
                 <div className="text-center mt-5 text-[16px]">
-                    Don't have an account? <br />
+                    Don&apos;t have an account? <br />
                     <Link href="/auth/signUp"><span className="text-artisticblue underline">Sign Up</span></Link>
                 </div>
             </div>
