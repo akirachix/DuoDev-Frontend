@@ -16,7 +16,25 @@ const geistMono = localFont({
 export const metadata: Metadata = {
   title: "Eco-Threads Hub",
   description: "Online Marketplace for Recycled Products",
-};
+  generator: "Next.js",
+  manifest: "/manifest.json",
+  keywords: ["nextjs", "next18", "pwa", "next-pwa"],
+  authors: [
+    {
+      name: "Ronald Mcgarret",
+      url: "https://www.linkedin.com/in/ronald-mcgarret/",
+    },
+    {
+      name: "Hosewell Karanja",
+      url: "https://www.linkedin.com/in/hosewell-karanja-47750a316/"
+    }
+  ],
+  icons: [
+    { rel: "apple-touch-icon", url: "/logo.png"  },
+    { rel: "icon", url: "/logo.png" },
+  ],
+  };
+
 
 export default function RootLayout({
   children,

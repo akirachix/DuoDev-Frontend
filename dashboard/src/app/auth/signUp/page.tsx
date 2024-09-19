@@ -90,8 +90,8 @@ const onSubmit = async (data: z.infer<typeof validationSchema>) => {
 };
 return (
     <div className="lg:grid grid-cols-2 gap-3 px-5">
-    <div className='mt-2'>
-        <form onSubmit={handleSubmit(onSubmit)} className="lg:px-[5%] md:px-[10%] px-2 mt-3">
+    <div>
+        <form onSubmit={handleSubmit(onSubmit)} className="lg:px-[5%] md:px-[10%] px-2 ">
         <h1 className="lg:text-[40px] text-[24px] text-center mb-2 text-artisticblue">Sign Up to Eco-Threads Hub</h1>
         <div className="md:grid grid-cols-2 gap-2 mb-5">
             <div className='md:mb-0 mb-7'>
@@ -99,7 +99,7 @@ return (
                 type="text"
                 {...register("first_name")}
                 placeholder="First Name"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                className="bg-coldsteel rounded-[10px] px-3 py-3 w-full focus:outline-none focus:border-2"
             />
             {errors?.first_name?.message && <p className="text-red-500 ml-2 text-sm">{errors?.first_name?.message}</p>}
             </div>
@@ -108,7 +108,7 @@ return (
                 type="text"
                 {...register("last_name")}
                 placeholder="Last Name"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                className="bg-coldsteel rounded-[10px] px-3 py-3 w-full focus:outline-none focus:border-2"
             />
             {errors?.last_name?.message && <p className="text-red-500 ml-2 text-sm">{errors?.last_name?.message}</p>}
             </div>
@@ -119,7 +119,7 @@ return (
                 type="text"
                 {...register("username")}
                 placeholder="Username"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                className="bg-coldsteel rounded-[10px] px-3 py-3 w-full focus:outline-none focus:border-2"
                 onChange={(e) => setUsername(e.target.value)}
             />
             {errors?.username?.message && <p className="text-red-500 ml-2 text-sm">{errors?.username?.message}</p>}
@@ -129,7 +129,7 @@ return (
                 type="text"
                 {...register("phone_number")}
                 placeholder="Phone Number 254 .."
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                className="bg-coldsteel rounded-[10px] px-3 py-3 w-full focus:outline-none focus:border-2"
             />
             {errors?.phone_number?.message && <p className="text-red-500 ml-2 text-sm">{errors?.phone_number?.message}</p>}
             </div>
@@ -138,7 +138,7 @@ return (
                 type={showPassword ? "text" : "password"} // Toggle type
                 {...register("set_password")}
                 placeholder="Set Password"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                className="bg-coldsteel rounded-[10px] px-3 py-3 w-full focus:outline-none focus:border-2"
             />
             <span
                 onClick={() => setShowPassword(!showPassword)}
@@ -153,7 +153,7 @@ return (
                 type={showPassword ? "text" : "password"}
                 {...register("password")}
                 placeholder="Confirm Password"
-                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
+                className="bg-coldsteel rounded-[10px] px-3 py-3 w-full focus:outline-none focus:border-2"
             />
             {errors?.password?.message && <p className="text-red-500 ml-2 text-sm">{errors?.password?.message}</p>}
             <span
@@ -166,7 +166,7 @@ return (
         </div>
         <button
             type="submit"
-            className="bg-forestgreen text-white rounded-[10px] px-3 mt-4 py-5 w-full ${isSubmitting ? 'opacity-50' : ''}"
+            className="bg-forestgreen text-white rounded-[10px] px-3 mt-4 py-3 w-full ${isSubmitting ? 'opacity-50' : ''}"
         >
             {isSubmitting ? 'Submitting...' : 'Sign Up'}
         </button>
@@ -183,7 +183,7 @@ return (
         <Image
             src="/picture2.jpeg"
             alt="signup image"
-            width={700}
+            width={600}
             height={600}
         />
         </div>
