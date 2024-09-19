@@ -1,4 +1,4 @@
-export async function GET(req: Request) {
+export async function GET() {
     const baseUrl = process.env.BASE_URL;
 
     if (!baseUrl) {
@@ -12,15 +12,13 @@ export async function GET(req: Request) {
                 'Content-Type': 'application/json',
             },
         });
-        // console.log({response:response.body});
-        
 
         if (!response.ok) {
             return new Response('Failed to fetch orders', { status: response.status });
         }
 
         const orders = await response.json();
-        console.log({all:orders});
+        console.log({ all: orders });
         
         return new Response(JSON.stringify(orders), {
             status: 200,
@@ -30,4 +28,3 @@ export async function GET(req: Request) {
         return new Response('Server error', { status: 500 });
     }
 }
-

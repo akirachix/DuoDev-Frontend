@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import OrderTable from '../Components/OrderTable';
 import useGetOrders from '../hooks/useGetOrders';
 import Layout from '@/app/Components/Layout';
