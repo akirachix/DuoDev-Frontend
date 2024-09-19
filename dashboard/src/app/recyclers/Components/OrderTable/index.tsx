@@ -72,7 +72,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
         </span>
 
         <button
-          className="px-3 py-2  text-white bg-forestgreen rounded-md disabled:opacity-50"
+          className="px-5 py-2  text-white bg-forestgreen rounded-md disabled:opacity-50 w-20"
           onClick={nextPage}
           disabled={currentPage === totalPages}
         >
