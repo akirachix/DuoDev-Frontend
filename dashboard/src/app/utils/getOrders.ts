@@ -9,7 +9,7 @@ export const getOrders = async() => {
         const data = await response.json();
         
 
-     return data
+    return data
       } catch (error) {
       throw new Error((error as Error).message);
       } 

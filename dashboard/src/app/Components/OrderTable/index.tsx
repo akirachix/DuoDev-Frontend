@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { OrderData } from '../types';
+import { OrderData } from '../../utils/types';
 
 function OrderTable({ data }: { data: OrderData[] }) {
   const [currentPage, setCurrentPage] = useState(1); // Current page state
