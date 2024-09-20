@@ -4,8 +4,8 @@ import Image from 'next/image';
 
 export default function Home() {
   return (
-    <div className="bg-white">
-      <section className="relative bg-green-100 min-h-screen flex flex-col justify-center items-center text-center">
+    <div className="bg-artisticblue">
+      <section className="relative bg-black-100 min-h-screen flex flex-col justify-center items-center text-center">
         <div className="absolute top-0 left-0 w-full h-full">
           <Image
             src="/shopclothing.jpg" // Replace with your image
@@ -15,10 +15,10 @@ export default function Home() {
           />
         </div>
         <div className="relative z-10">
-          <h1 className="text-3xl lg:text-6xl font-bold  text-artisticblue">
+          <h1 className="text-3xl lg:text-6xl font-bold  text-white">
             Join the Sustainable Revolution
           </h1>
-          <p className="mt-4 text-xl text-artisticblue">
+          <p className="mt-4 text-xl text-white">
             EcoThreads Hub connects traders, recyclers, and conscious consumers for a greener tomorrow.
           </p>
           <div className="mt-8 flex   space-x-4">
@@ -29,7 +29,7 @@ export default function Home() {
             </Link>
             <Link href="/auth/role" passHref>
               <button className="bg-white text-green-600 px-6 py-3 border border-green-600 rounded-lg font-semibold hover:bg-green-100 transition duration-300">
-                Join the Marketplace
+                Join the Ecothreads
               </button>
             </Link>
           </div>
