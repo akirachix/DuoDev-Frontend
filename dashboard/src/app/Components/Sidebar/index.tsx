@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-// import Image from "/logo.jpeg";+
 import Image from "next/image";
+
 
 
 export default function Sidebar() {
@@ -13,6 +13,7 @@ export default function Sidebar() {
   const handleLinkClick = (section: string) => {
     setActiveLink(section);
   };
+
 
   return (
     <div className="flex h-screen">
@@ -78,10 +79,10 @@ export default function Sidebar() {
 
           <li>
             <Link
-              href="/orders"
-              onClick={() => handleLinkClick("/orders")}
+              href="/recyclers/orders"
+              onClick={() => handleLinkClick("/recyclers/orders")}
               className={`flex items-center p-2 text-white text-xl transition-all duration-300  hover:bg-forestgreen ${
-                activeLink === "/orders" ? "text-forestgreen" : ""
+                activeLink === "/recyclers/orders" ? "text-forestgreen" : ""
               }`}
             >
               <span className="ml-3">Orders</span>
