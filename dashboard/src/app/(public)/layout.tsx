@@ -1,12 +1,12 @@
 import React from "react";
+import PublicUsersNavigation from "../Components/PublicUsers-Navigation";
 export default function PublicusersView ({ children }: {children: React.ReactNode}) {
     return(
         <div>
-            <header><h1 className=""></h1></header>
+            <PublicUsersNavigation/>
             <main>
                 {children}
             </main>
-            <footer className=""><h1></h1></footer>
         </div>
     )
     
