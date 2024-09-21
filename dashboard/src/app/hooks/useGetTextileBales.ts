@@ -9,10 +9,15 @@ const useGetBales = () => {
   const [error, setError] = useState<string>("");
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchBales = async () => {
       try {
         const data = await getBales();
         setBales(data?.data);
+
+        console.log({ all: data?.data });
+        
+
+
       } catch (error) {
         if (error instanceof Error) {
           setError(error.message);
@@ -24,7 +29,7 @@ const useGetBales = () => {
       }
     };
 
-    fetchOrders();
+    fetchBales();
   }, []);
 
   return { bales, loading, error };

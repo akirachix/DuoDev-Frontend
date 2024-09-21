@@ -21,5 +21,5 @@ export  interface TextileBaleData {
         phone_number:string | null;
         product: number;
         status: string;
-        total_price:string
+        price:string
     }

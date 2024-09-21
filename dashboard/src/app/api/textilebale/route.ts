@@ -11,7 +11,7 @@ export async function GET() {
             headers: {
                 'Content-Type': 'application/json',
             },
-        });
+        });        
 
         if (!response.ok) {
             return new Response('Failed to fetch textilebales', { status: response.status });
@@ -21,8 +21,7 @@ export async function GET() {
         console.log({ all: bale });
         
         return new Response(JSON.stringify(bale), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
+            status: 200
         });
     } catch (error) {
         return new Response('Server error', { status: 500 });
