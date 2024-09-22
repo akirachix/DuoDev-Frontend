@@ -72,16 +72,17 @@ const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<
     mode: "onChange",
 });
 
+
 const onSubmit = async (data: z.infer<typeof validationSchema>) => {
     if (role && usernameAvailable) {
         const userData = { ...data, role };
         try {
             const response = await userSignup(userData);
 
-            if (response.data?.username) {
-                // Set the user data cookie
-                setCookie('role', role);
-
+            if (response.data) {
+                // Store all user data in cookies
+                setCookie('userData', JSON.stringify(response.data)); // Store all user data as a JSON string
+                setCookie('role', role); // Store role separately
                 router.push('/auth/signIn');
             } else {
                 toast.error('Signup failed. Please try again.');
@@ -90,9 +91,8 @@ const onSubmit = async (data: z.infer<typeof validationSchema>) => {
             console.error('Error during signup:', error);
             toast.error((error as Error).message);
         }
-    }
-    else{
-        alert("You have no Choosen role ");
+    } else {
+        alert("You have not chosen a role.");
     }
 };
 return (
