@@ -27,12 +27,16 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Provider component to wrap around your app
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [cart, setCart] = useState<CartItem[]>(() => {
-        const storedCart = localStorage.getItem('cart');
-        return storedCart ? JSON.parse(storedCart) : [];
-    });
+    const [cart, setCart] = useState<CartItem[]>([]); // Initialize with an empty array
+    const router = useRouter();
 
-    const router = useRouter(); // Move useRouter outside of handleCheckout
+    // Load cart from localStorage in useEffect
+    useEffect(() => {
+        const storedCart = localStorage.getItem('cart');
+        if (storedCart) {
+            setCart(JSON.parse(storedCart));
+        }
+    }, []);
 
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -86,10 +90,8 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const handleCheckout = () => {
         const isLoggedIn = getCookie('userData');
         if (!isLoggedIn) {
-            // User is not logged in; do not proceed to checkout
             alert('Please log in to proceed to checkout.');
         } else {
-            // Proceed to checkout with the total price as a query parameter
             router.push(`/publicUser/checkout?totalPrice=${totalPrice}`);
         }
     };
