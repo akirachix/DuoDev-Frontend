@@ -1,10 +1,9 @@
-import ProductsList from "./productListing";
+import Products from "./productListing";
 
 export default function Marketplace (){
     return(
         <div>
-            <h1>MARKET PLACE</h1>
-            <ProductsList/>
+            <Products/>
         </div>
     )
 }

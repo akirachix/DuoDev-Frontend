@@ -12,6 +12,9 @@ const nextConfig = {
     experimental: {
         missingSuspenseWithCSRBailout: false,  
     },
+    images: {
+        domains: ['eco-threads-hub-d1b29486e648.herokuapp.com'], // Add your hostname here
+    },
 };
 
 export default withPWA({

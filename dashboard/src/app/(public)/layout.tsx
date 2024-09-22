@@ -1,13 +1,17 @@
-import React from "react";
-import PublicUsersNavigation from "../Components/PublicUsers-Navigation";
-export default function PublicusersView ({ children }: {children: React.ReactNode}) {
-    return(
+import React from 'react';
+import PublicUsersNavigation from '../Components/PublicUsers-Navigation';
+import { CartProvider } from '../Context/CartContext';
+
+function PublicUsersView({ children }: { children: React.ReactNode }) {
+    return (
         <div>
-            <PublicUsersNavigation/>
+            <PublicUsersNavigation />
             <main>
-                {children}
+                <CartProvider>
+                    {children}
+                </CartProvider>
             </main>
         </div>
-    )
-    
+    );
 }
+export default PublicUsersView
