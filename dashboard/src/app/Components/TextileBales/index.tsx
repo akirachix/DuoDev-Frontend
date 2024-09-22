@@ -6,7 +6,7 @@ import Image from 'next/image';
 
 function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[] }) {
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 2;
+  const itemsPerPage = 4;
 
   const totalPages = Math.ceil(textileBales.length / itemsPerPage);
 
@@ -30,25 +30,25 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
 
   return (
     <div>
-      <div id='recyclers' className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-6 p-2 max-h-lvh text-xl">
+      <div id='recyclers' className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 p-2  text-lg">
         {currentBales.map((bale) => (
           <div key={bale.id} id='recyclers' className="flex border-2 border-black-300 shadow-lg p-4 bg-white rounded-lg justify-around">
-            <div className="mb-4">
+            <div >
               <Image
-                src={bale.image as string}
+                src="/pillow-eco.webp"
                 alt="bale"
-                width={200}
-                height={200}
+                width={150}
+                height={150}
                 className="rounded-lg"
               />
             </div>
-            <div className="grid gap-2 text-artisticblue text-xl">
+            <div className=" gap-2 text-artisticblue text-md">
               <p>Trader:   {bale.id}</p>
               <p>Type: {bale.waste_type}</p>
               <p>Contacts: {bale.phone_number ? bale.phone_number : 'N/A'}</p>
               <p>Location: {bale.location}</p>
               <p>Price: Ksh {bale.price}</p>
-              <button className="bg-green-600 text-white text-lg px-2 py-1 rounded-xl font-semibold hover:bg-green-700 transition duration-300 w-30 justify-around">
+              <button className="bg-green-600 text-white text-md px-2 py-1 rounded font-semibold hover:bg-green-700 transition duration-300 w-30 justify-around">
                 Assign Agent
               </button>
             </div>
@@ -56,7 +56,7 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
         ))}
       </div>
 
-      <div className="flex justify-center mt-6 space-x-4">
+      <div className="flex justify-center mt-3 space-x-4">
         <button
           onClick={handlePrevPage}
           disabled={currentPage === 1}

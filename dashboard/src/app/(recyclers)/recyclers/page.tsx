@@ -31,6 +31,8 @@ function TextileBales() {
           />
         </div>
 
+    
+
         {loading ? (
           <p>Loading orders...</p>
         ) : error ? (
