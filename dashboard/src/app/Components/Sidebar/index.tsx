@@ -67,10 +67,10 @@ export default function Sidebar() {
 
           <li>
             <Link
-              href="/agents"
-              onClick={() => handleLinkClick("/agents")}
+              href="/recyclers/footagent"
+              onClick={() => handleLinkClick("/recyclers/footagent")}
               className={`flex items-center p-2 text-white text-xl transition-all duration-300 hover:bg-forestgreen ${
-                activeLink === "/agents" ? "text-forestgreen" : ""
+                activeLink === "/recyclers/footagent" ? "text-forestgreen" : ""
               }`}
             >
               <span className="ml-3">Agents</span>

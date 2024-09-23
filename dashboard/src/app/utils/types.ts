@@ -10,7 +10,7 @@ export  interface OrderData {
         status: string;
         order_number:string;
         total_price:string
-      }
+}
 
 // textile bale types
 export  interface TextileBaleData {
@@ -21,5 +21,15 @@ export  interface TextileBaleData {
         phone_number:string | null;
         product: number;
         status: string;
-        price:string
-    }
+        price:string;
+        bale_id:number
+}
+
+
+export interface AgentsData{
+        id:number;
+        bale_id:number;
+        agent_name:string;
+        location:string;
+        user:number;
+}

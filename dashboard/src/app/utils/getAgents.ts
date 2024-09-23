@@ -1,11 +1,9 @@
-import { Agent } from "http";
-
-export const getBales = async() => {
+export const getAgents = async() => {
     try {
-        const response = await fetch('/api/textilebale/');              
+        const response = await fetch('/api/footagent/');
         
         if (!response.ok) {
-          throw new Error('Failed to fetch textilebales');
+          throw new Error('Failed to fetch footagents');
         }
 
         const data = await response.json();

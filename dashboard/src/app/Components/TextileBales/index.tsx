@@ -3,13 +3,15 @@
 import React, { useState } from 'react';
 import { TextileBaleData } from '../../utils/types';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';  
+
 
 function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
+  const router = useRouter(); 
   const totalPages = Math.ceil(textileBales.length / itemsPerPage);
-
 
   const currentBales = textileBales.slice(
     (currentPage - 1) * itemsPerPage,
@@ -28,6 +30,10 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
     }
   };
 
+  const handleAssignAgent = (bale_id: number) => {
+    router.push(`/recyclers/footagent`);
+  };
+  
   return (
     <div>
       <div id='recyclers' className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-2 p-2  text-lg">
@@ -48,7 +54,9 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
               <p>Contacts: {bale.phone_number ? bale.phone_number : 'N/A'}</p>
               <p>Location: {bale.location}</p>
               <p>Price: Ksh {bale.price}</p>
-              <button className="bg-green-600 text-white text-md px-2 py-1 rounded font-semibold hover:bg-green-700 transition duration-300 w-30 justify-around">
+              <button 
+              onClick={() => handleAssignAgent(bale.bale_id)}
+              className="bg-green-600 text-white text-md px-2 py-1 rounded font-semibold hover:bg-green-700 transition duration-300 w-30 justify-around">
                 Assign Agent
               </button>
             </div>
