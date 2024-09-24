@@ -9,7 +9,6 @@ export  interface OrderData {
         product: number;
         status: string;
         order_number:string;
-        total_price:string
 }
 
 // textile bale types

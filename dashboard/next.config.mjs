@@ -13,6 +13,9 @@ const nextConfig = {
     images: {
         domains: ['eco-threads-hub-d1b29486e648.herokuapp.com'], // Add your hostname here
     },
+    images: {
+        domains: ['eco-threads-hub-d1b29486e648.herokuapp.com'], // Add your hostname here
+    },
 };
 export default withPWA({
     dest: "public",         // destination directory for the PWA files

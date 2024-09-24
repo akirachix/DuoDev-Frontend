@@ -1,48 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-/**
- * Handles login requests from the frontend.
- * 1. Validates that the BASE_URL environment variable is set.
- * 2. Parses the JSON request body and validates that it contains the required
- *    fields: username and password.
- * 3. Makes a POST request to the backend API with the username and password.
- * 4. Logs the full response from the backend API for debugging.
- * 5. Handles errors from the backend API.
- * 6. Parses the response from the backend API and sends it back to the client.
- */
 export async function POST(request: NextRequest) {
-    const baseUrl = process.env.BASE_URL; 
-    console.log('BASE_URL:', baseUrl);
+    const baseUrl = process.env.BASE_URL ; 
+    console.log('BASE_URL:', process.env.BASE_URL);
+
 
     // Validate environment variable
     if (!baseUrl) {
         console.error('BASE_URL environment variable is not set.');
         return NextResponse.json(
-            { error: 'An unexpected error occurred. Please try again later.' },
+            { error: 'An unexpected error occurred. Please try again later rote.ts.' },
             { status: 500 }
         );
     }
 
     try {
         // Parse JSON request body
-        const { username, password } = await request.json();
+        const { phone_number, amount } = await request.json();
 
         // Validate required fields
-        if (!username || !password) {
+        if (!amount || !phone_number) {
             console.error('Validation failed: Missing fields');
             return NextResponse.json(
-                { error: 'All fields are required.' },
+                { error: 'All fields are required .' },
                 { status: 400 }
             );
         }
 
         // Prepare request to the backend API
-        const response = await fetch(`${baseUrl}/api/login/`, {
+        const response = await fetch(`${baseUrl}/process_payment/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, password }),
+            body: JSON.stringify({ phone_number, amount }),
         });
 
         // Log the full response for debugging
@@ -54,7 +45,7 @@ export async function POST(request: NextRequest) {
             try {
                 const errorData = JSON.parse(textResponse);
                 return NextResponse.json(
-                    { error: errorData.error || 'Failed to authenticate user' },
+                    { error: errorData.errors || 'Failed complete purchase' },
                     { status: response.status }
                 );
             } catch (e) {
@@ -68,14 +59,13 @@ export async function POST(request: NextRequest) {
 
         // Parse the response and send it back to the client
         const result = JSON.parse(textResponse);
-        console.log('Login successful:', result);
-        return NextResponse.json(result, { status: 200 });
+        console.log('payment successfully:', result);
+        return NextResponse.json(result, { status: 201 });
     } catch (error) {
-        console.error('Error during login: invalid credentials', error);
+        console.error('Error during payment route.ts:', error);
         return NextResponse.json(
-            { error: 'Error during login' },
+            { error: 'Error during payment route.ts' },
             { status: 500 }
         );
     }
 }
-

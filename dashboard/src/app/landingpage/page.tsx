@@ -27,7 +27,7 @@ export default function Home() {
                 Explore Products
               </button>
             </Link>
-            <Link href="/auth/role" passHref>
+            <Link href="/auth/signIn" passHref>
               <button className="bg-white text-green-600 px-6 py-3 border border-green-600 rounded-lg font-semibold hover:bg-green-100 transition duration-300">
                 Join the Ecothreads
               </button>

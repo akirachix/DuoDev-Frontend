@@ -20,7 +20,7 @@ const url = "/api/login";
  * Function to log in a user
  * 
  * @param {UserData} userData - User data to log in
- * @returns {Promise<any>} - Promise that resolves with the response data from the API
+ * @returns {Promise<LoginResponse>}- Promise that resolves with the response data from the API
  */
 export const userLogin = async (userData: UserData) => {
     try {
