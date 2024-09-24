@@ -1,33 +1,45 @@
-import { useState, useEffect } from "react";
-import { getOrders } from "../utils/getOrders";
-import { OrderData } from "../utils/types";
+export interface OrderData {
+  order_number: string;
+  phone_number: number; // Consider making this string if you want to support formatted numbers
+  quantity: number;
+  total_price: number;
+  location: string;
+  status: string;
+  product: number;
+  user: number;
+}
 
-// Define the custom hook
-const useGetOrders = () => {
-  const [orders, setOrders] = useState<OrderData[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+const url = "/api/orders";
 
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const data = await getOrders();
-        setOrders(data?.data);
-      } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError("An unknown error occurred");
-        }
-      } finally {
-        setLoading(false);
+export const postOrder = async (orderData: OrderData) => {
+  console.log(orderData);
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderData), // Send the OrderData object
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error("Full response from server:", text);
+
+      // Handle different status codes
+      if (response.status >= 500) {
+        throw new Error("We are experiencing technical difficulties. Please try again later.");
+      } else if (response.status === 400) {
+        throw new Error("Invalid credentials. Please try again.");
+      } else {
+        throw new Error("Something went wrong. Please try again.");
       }
-    };
+    }
 
-    fetchOrders();
-  }, []);
-
-  return { orders, loading, error };
+    // Parse and return the JSON response
+    return await response.json();
+  } catch (error) {
+    console.error("Error during order submission:", error);
+    throw new Error((error as Error).message);
+  }
 };
-
-export default useGetOrders;
