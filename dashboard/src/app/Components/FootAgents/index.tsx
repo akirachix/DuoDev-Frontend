@@ -64,7 +64,7 @@ function FootAgentComponent({ footAgent, bale_id }: { footAgent: AgentsData[], b
                 <td className="px-4 py-2 border-b">{agent.location}</td>
                 <td className="px-4 py-2 border-b text-center">
                   <button
-                    onClick={() => handleAssign(agent.agent_id)}
+                    onClick={() => handleAssign(agent.agent_id.toString())}
                     className={`bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition duration-300 items-left ${loading && 'opacity-50'}`}
                     disabled={loading}
                   >

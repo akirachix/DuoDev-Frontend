@@ -1,6 +1,39 @@
-import { Url } from "next/dist/shared/lib/router/router";
+// Order List type
+export interface OrderData {
+  id: number;
+  location: string;
+  phone_number: string | null;
+  product: number;
+  status: string;
+  order_number: string;
+  total_price: string;
+}
 
+// Product List type
+export interface ProductData {
+  product_id: number;
+  product_name: string;
+  price: string;
+  material: string;
+  description: string;
+  image: string | null;
+  trader: number | null;
+}
 
+// Textile Bale List type
+export interface TextileBaleData {
+  bale_id: number;
+  waste_type: string;
+  weight: number;
+  price: string;
+  image: string;
+  phone_number: string ;
+  upload_date: string;
+  is_verified: boolean;
+  trader: number | null;
+  posted_by: number;
+  location: string;
+}
 // orders types
 export  interface OrderData {
         id:number;
@@ -9,48 +42,24 @@ export  interface OrderData {
         product: number;
         status: string;
         order_number:string;
-        total_price:number
-}
+        total_price:string;
+      }
 
-// textile bale types
-export  interface TextileBaleData {
-        image:Url;
-        id:number;
-        location:string;
-        waste_type:string; 
-        phone_number:string | null;
-        product: number;
-        status: string;
-        price:string;
-        bale_id:number
-        trader:string | null
-}
-
-
-export interface AgentsData{
-        id:number;
-        bale_id:number;
-        agent_name:string;
-        location:string;
-        user:number;
-        agent_id: string;
-        textile_bale_id: string
-}
-
-export interface AssignmentData{
-        foot_agent_id: string,
-        textile_bale_id: string,
-        agent_id: string,
-        bale_id:string,
-        agent_name:string
-}
-
-export interface ProductData{
-        product_id: number;
-        product_name: string;
-        price: string;
-        material: string;
-        description: string;
-        image: string | null;
-        trader: number | null;
+      export interface AgentsData {
+        agent_id: number;
+        agent_name: string;
+        email: string;
+        password: string;
+        phone_number: string;
+        role: string;
+        location: string;
+        created_at: string;
+        updated_at: string;
+      }
+      
+      export interface AssignmentData {
+        agent_id: number;
+        bale_id: number;
+        created_at: string;
+        updated_at: string;
       }
