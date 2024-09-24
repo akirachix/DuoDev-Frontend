@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 import { OrderData } from '../../utils/types';
 
 function OrderTable({ data }: { data: OrderData[] }) {
-  const [currentPage, setCurrentPage] = useState(1); // Current page state
-  const ordersPerPage = 5; // Number of orders to display per page
+  const [currentPage, setCurrentPage] = useState(1); 
+  const ordersPerPage = 5; 
 
   // Calculate the total number of pages
   const totalPages = Math.ceil(data.length / ordersPerPage);
@@ -58,6 +58,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
       </table>
 
       {/* Pagination controls */}
+      
       <div className="flex justify-between items-center mt-4">
         <button
           className="px-3 py-2 text-white bg-forestgreen rounded-md disabled:opacity-50"

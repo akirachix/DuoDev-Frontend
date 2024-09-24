@@ -1,13 +1,16 @@
-"use client";
+"use client"; // This should be at the very top
+
 import { BsFillCartCheckFill } from "react-icons/bs";
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
+import { setCookie } from 'cookies-next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
-import { userPayment } from '../hooks/userpayment'; // Ensure this function is correctly defined
-import { ToastContainer, toast } from 'react-toastify'; // Import ToastContainer and toast
-import 'react-toastify/dist/ReactToastify.css'; // Import styles
+import { userPayment } from '../hooks/userpayment';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useRouter } from 'next/navigation'; // Use next/navigation for app directory
 
 const validationSchema = z.object({
     phone_number: z.string()
@@ -18,6 +21,7 @@ const validationSchema = z.object({
 });
 
 export default function CheckoutPage() {
+    const router = useRouter(); // This should work correctly now
     const [totalPrice, setTotalPrice] = useState(0);
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<z.infer<typeof validationSchema>>({
@@ -31,37 +35,47 @@ export default function CheckoutPage() {
             setTotalPrice(JSON.parse(storedPrice));
             setValue('amount', JSON.parse(storedPrice));
         }
-    },  [setValue]);
+    }, [setValue]);
 
     const onSubmit = async (data: z.infer<typeof validationSchema>) => {
         const { phone_number, location } = data;
-
-        // Convert phone number to a number and ensure it's in the right format
         const formattedPhoneNumber = Number(phone_number);
         const formattedAmount = totalPrice;
-
-
+    
+        // Set cookies before making the payment request
+        setCookie('phoneNumber', formattedPhoneNumber);
+        setCookie('totalPrice', formattedAmount);
+        setCookie('location', location);
+        setCookie('userId', 1); // Replace with the actual user ID you have
+        setCookie('productId', 1); // Replace with the actual product ID you have
+    
         try {
             const response = await userPayment({ phone_number: formattedPhoneNumber, amount: formattedAmount, location });
+            console.log(response);
+            if (!response) {
+                toast.error('Payment response is not valid.');
+                return;
+            }
     
-            if (response && response.data) {
-                toast.success('Payment processed successfully!');
-            } else {
-                toast.error('Payment failed. Please try again.');
+            if (response.ResponseCode !== "0") {
+                toast.error('Payment failed: ' + response.data.ResponseDescription);
+                return;
             }
-        } catch (error: unknown) { // Specify the type as unknown
-            console.error('We have ecounterd an issue processing your payment', error);
+            const CheckoutRequestID = response.CheckoutRequestID;
+            console.log(CheckoutRequestID);
             
-            if (error instanceof Error) {
-                toast.error('We have ecounterd an issue processing your payment ' + error.message); // Access the message safely
-            } else {
-                toast.error('We have ecounterd an issue processing your payment Please try again.'); // Fallback for unexpected errors
-            }
+            toast.success(`Payment processed successfully! A payment request has been sent to ${phone_number}. Please complete it on your phone.`);
+    
+            // Redirect to payment status page
+            router.push(`/checkpaymentstatus?checkout_request_id=${CheckoutRequestID}`);
+        } catch (error: unknown) {
+            toast.error('We have encountered an issue processing your payment.');
         }
     };
+
     return (
         <div className="py-16 px-10">
-            <ToastContainer /> {/* Add ToastContainer here */}
+            <ToastContainer />
             <div className='lg:grid grid-cols-2 gap-3 px-9'>
                 <form onSubmit={handleSubmit(onSubmit)} className='flex-col flex gap-5 mt-[10%]'>
                     <h1 className="text-4xl flex font-bold gap-5 text-artisticblue text-center">Checkout ..... <BsFillCartCheckFill /></h1>
