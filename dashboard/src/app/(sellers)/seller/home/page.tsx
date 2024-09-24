@@ -1,7 +1,7 @@
 "use client";
 import { useState } from 'react';
 import Link from 'next/link';
-
+import Image from 'next/image';
 interface Material {
     type: string;
     priceRange: string;
@@ -50,7 +50,10 @@ export default function SellerHomePage() {
                 <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-lg">
                     <h3 className="text-3xl font-bold text-gray-800">{selectedMaterial.type} Details</h3>
                     <p className="mt-4 text-lg text-gray-600">{selectedMaterial.description}</p>
-                    <img src={selectedMaterial.image} alt={selectedMaterial.type} className="w-full h-60 object-cover rounded-lg mt-4" />
+                    <Image
+                        src={selectedMaterial.image}
+                        alt={selectedMaterial.type}
+                        className="w-full h-60 object-cover rounded-lg mt-4" />
 
                     {/* Price Calculator */}
                     <div className="mt-6">
@@ -87,7 +90,9 @@ export default function SellerHomePage() {
             <div className="flex flex-wrap justify-center mt-8">
                 {sellerMaterials.map((material, index) => (
                     <div key={index} className="bg-white max-w-xs m-4 p-6 rounded-lg shadow-lg hover:bg-gray-100 transition cursor-pointer" onClick={() => setSelectedMaterial(material)}>
-                        <img src={material.image} alt={material.type} className="w-full h-40 object-cover rounded-t-lg" />
+                        <Image src={material.image}
+                            alt={material.type}
+                            className="w-full h-40 object-cover rounded-t-lg" />
                         <div className="p-4">
                             <h2 className="text-2xl font-semibold text-gray-800">{material.type} (1kg)</h2>
                             <p className="text-lg text-gray-600">Price: {material.priceRange}</p>

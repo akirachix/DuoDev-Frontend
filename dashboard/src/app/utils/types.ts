@@ -27,8 +27,22 @@ export interface TextileBaleData {
   weight: number;
   price: string;
   image: string;
+  phone_number: string ;
   upload_date: string;
   is_verified: boolean;
   trader: number | null;
   posted_by: number;
+  location: string;
 }
+// orders types
+export  interface OrderData {
+        id:number;
+        location:string;
+        phone_number:string | null;
+        product: number;
+        status: string;
+        order_number:string;
+        total_price:string
+      }
+
+// textile bale types

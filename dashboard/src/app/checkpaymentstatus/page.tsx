@@ -12,7 +12,7 @@ export default function CheckPaymentStatusPage() {
     const [paymentStatus, setPaymentStatus] = useState<PaymentStatus | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
-    const [checkoutRequestID, setCheckoutRequestID] = useState<string | null>(null);
+  
     const [waiting, setWaiting] = useState<boolean>(true);
 
     useEffect(() => {
@@ -21,7 +21,7 @@ export default function CheckPaymentStatusPage() {
         console.log(id);
 
         if (id) {
-            setCheckoutRequestID(id);
+          
             const timer = setTimeout(() => {
                 setWaiting(false);
                 startCheckingPaymentStatus(id);

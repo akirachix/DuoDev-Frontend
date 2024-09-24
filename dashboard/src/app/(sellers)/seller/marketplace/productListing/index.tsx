@@ -19,7 +19,6 @@ export default function SellerProducts() {
     const [cartVisible, setCartVisible] = useState(false);
     const router = useRouter();  // Use router for navigation
     const imageurl = process.env.NEXT_PUBLIC_IMAGE_URL;
-    console.log(imageurl);
     
     // Use the context functions
     const { cart, addToCart, increaseQuantity, decreaseQuantity, totalPrice } = useCart();
@@ -162,7 +161,8 @@ export default function SellerProducts() {
 
                             {/* Updated Checkout Button */}
                             <button
-                                className="bg-forestgreen text-white rounded py-2 px-4"
+
+                                className={`bg-forestgreen text-white rounded py-2 px-4 ${cart.length === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
                                 onClick={handleCheckout}  // Handle checkout logic
                             >
                                 Checkout

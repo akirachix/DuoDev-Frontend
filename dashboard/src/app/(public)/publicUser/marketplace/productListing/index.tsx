@@ -20,21 +20,21 @@ export default function Products() {
     const router = useRouter();  // Use router for navigation
     const imageurl = process.env.NEXT_PUBLIC_IMAGE_URL;
     console.log(imageurl);
-    
+
     // Use the context functions
     const { cart, addToCart, increaseQuantity, decreaseQuantity, totalPrice } = useCart();
 
     // Check if the user is logged in by checking for userData in cookies
     const handleCheckout = () => {
         const userData = getCookie('userData');  // Retrieve user data from cookies
-            if (!userData) {
-                router.push('/auth/signIn');
-            } else {
-                // Store total price securely in session storage
-                sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
-                router.push('/checkout');
-            }
+        if (!userData) {
+            router.push('/auth/signIn');
+        } else {
+            // Store total price securely in session storage
+            sessionStorage.setItem('totalPrice', JSON.stringify(totalPrice));
+            router.push('/checkout');
         }
+    }
     useEffect(() => {
         const timer = setTimeout(() => {
             setPageLoading(false);
@@ -100,7 +100,7 @@ export default function Products() {
                                     className="border p-4 rounded shadow text-artisticblue flex flex-col justify-between"
                                 >
 
-                                    
+
                                     <div className="mb-4 flex justify-center">
                                         <Image
                                             src={`${imageurl}${product.image}`}
@@ -162,7 +162,7 @@ export default function Products() {
 
                             {/* Updated Checkout Button */}
                             <button
-                                className="bg-forestgreen text-white rounded py-2 px-4"
+                                className={`bg-forestgreen text-white rounded py-2 px-4 ${cart.length === 0 ? 'cursor-not-allowed opacity-50' : ''}`}
                                 onClick={handleCheckout}  // Handle checkout logic
                             >
                                 Checkout

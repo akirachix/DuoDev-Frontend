@@ -11,7 +11,6 @@ import { userPayment } from '../hooks/userpayment';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useRouter } from 'next/navigation'; // Use next/navigation for app directory
-import { log } from "console";
 
 const validationSchema = z.object({
     phone_number: z.string()
