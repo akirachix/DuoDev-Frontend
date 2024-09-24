@@ -9,6 +9,7 @@ export  interface OrderData {
         product: number;
         status: string;
         order_number:string;
+        total_price:number
 }
 
 // textile bale types
@@ -43,3 +44,13 @@ export interface AssignmentData{
         bale_id:string,
         agent_name:string
 }
+
+export interface ProductData{
+        product_id: number;
+        product_name: string;
+        price: string;
+        material: string;
+        description: string;
+        image: string | null;
+        trader: number | null;
+      }

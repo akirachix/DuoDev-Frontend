@@ -3,7 +3,7 @@ import { assignBaleToAgent } from "../utils/assignBaleToAgent";
 import { AssignmentData} from "../utils/types";  
 
 // Define the custom hook
-const useAssignAgent = (agentId: string, assignmentData: any) => {
+const useAssignAgent = (agentId: string, assignmentData: string) => {
   const [assignedAgent, setAssignedAgent] = useState<AssignmentData | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");

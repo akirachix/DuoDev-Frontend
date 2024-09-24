@@ -1,4 +1,3 @@
-import { Agent } from "http";
 
 export const getBales = async() => {
     try {
