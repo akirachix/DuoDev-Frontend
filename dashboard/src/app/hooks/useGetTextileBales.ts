@@ -35,3 +35,4 @@ const useGetBales = () => {
   return { bales, loading, error };
 };
 
+export default useGetBales
