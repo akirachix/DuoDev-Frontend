@@ -11,7 +11,7 @@ export async function GET() {
             headers: {
                 'Content-Type': 'application/json',
             },
-        });        
+        });      
 
         if (!response.ok) {
             return new Response('Failed to fetch textilebales', { status: response.status });

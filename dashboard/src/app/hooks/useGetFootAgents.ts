@@ -11,9 +11,7 @@ const useGetFootAgents = () => {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const data = await getAgents();
-        console.log(data);
-        
+        const data = await getAgents();        
         setAgents(data);
       } catch (error) {
         if (error instanceof Error) {

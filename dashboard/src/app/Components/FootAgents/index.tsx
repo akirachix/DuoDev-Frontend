@@ -3,14 +3,15 @@
 import React, { useState } from 'react';
 import { AgentsData } from '../../utils/types';
 
-function FootAgentComponent({ footAgent }: { footAgent: AgentsData[] }) {
+function FootAgentComponent({ footAgent, bale_id }: { footAgent: AgentsData[], bale_id: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
+  const [message, setMessage] = useState('');
+  const [loading, setLoading] = useState(false); 
 
   const totalPages = Math.ceil(footAgent.length / itemsPerPage);
 
-
-  const currentagents = footAgent.slice(
+  const currentAgents = footAgent.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -27,52 +28,83 @@ function FootAgentComponent({ footAgent }: { footAgent: AgentsData[] }) {
     }
   };
 
+  const handleAssign = async (agentId: string) => {
+    setLoading(true); 
+    try {
+      const response = await fetch('/api/agent-assignments/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ bale_id, agentId }), 
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setMessage(`Bale ${bale_id} assigned successfully to agent ${data.agentName}`);
+      } else {
+        setMessage('Error assigning bale. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMessage('Error assigning bale. Please try again.');
+    } finally {
+      setLoading(false); 
+    }
+  };
+
   return (
-    <div>
-      <div id='recyclers/footagent' className="sm:grid-cols-2 md:grid-cols-2 gap-2 p-2  text-lg">
-        {currentagents.map((agent) => (
-          
-            <div className="flex justify-around  border-2 border-black-300 shadow-lg p-2 bg-white rounded-lg gap-3 text-artisticblue text-xl">
-              <div >
-                <p>Agent:   {agent.agent_name}</p>
-                <p>Location: {agent.location}</p>
-              </div>
-              <div>
-                {/* <p>Trader: {agent.user}</p> */}
-                <button 
-                
-                className="mt-7 bg-green-600 text-white text-sm px-2 py-1 rounded font-semibold hover:bg-green-700 transition duration-300 w-30 justify-around">
-                  Assign
-                </button>
-              </div>
-            </div>
-        ))}
-      </div>
+    <div className="container mx-auto p-4" id='/recyclers/footagent'>
+      {message && <div className="alert bg-green-100 text-green-700 p-2 mb-4 rounded">{message}</div>}
 
-      <div className="flex justify-center mt-3 space-x-4">
-        <button
-          onClick={handlePrevPage}
-          disabled={currentPage === 1}
-          className={`px-2 py-2 rounded-lg font-semibold ${
-            currentPage === 1 ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-forestgreen text-white w-20'
-          }`}
-        >
-          Previous
-        </button>
+      <div className="bg-white shadow-lg rounded-lg p-6">
+        <table className="table-auto w-full border-collapse">
+          <thead>
+            <tr>
+              <th className="px-4 py-2 border-b text-left font-semibold">Agent Name</th>
+              <th className="px-4 py-2 border-b text-left font-semibold">Location</th>
+              <th className="px-4 py-2 border-b text-center font-semibold">Assign</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentAgents.map((agent) => (
+              <tr key={agent.foot_agent_id} className="bg-gray-100 hover:bg-gray-200 transition duration-200">
+                <td className="px-4 py-2 border-b">{agent.agent_name}</td>
+                <td className="px-4 py-2 border-b">{agent.location}</td>
+                <td className="px-4 py-2 border-b text-center">
+                  <button
+                    onClick={() => handleAssign(agent.foot_agent_id)}
+                    className={`bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition duration-300 items-left ${loading && 'opacity-50'}`}
+                    disabled={loading}
+                  >
+                    {loading ? 'Assigning...' : 'Assign'}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-        <button
-          onClick={handleNextPage}
-          disabled={currentPage === totalPages}
-          className={`px-4 py-2 rounded-lg font-semibold ${
-            currentPage === totalPages ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'px-5 py-2  text-white bg-forestgreen rounded-md disabled:opacity-50 w-20'
-          }`}
-        >
-          Next
-        </button>
+        <div className="flex justify-between items-center mt-4">
+          <button
+            className={`px-3 py-2 text-white bg-forestgreen rounded-md ${currentPage === 1 && 'opacity-50 cursor-not-allowed'}`}
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="text-lg">Page {currentPage} of {totalPages}</span>
+          <button
+            className={`px-3 py-2 text-white bg-forestgreen rounded-md ${currentPage === totalPages && 'opacity-50 cursor-not-allowed'}`}
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
       </div>
     </div>
   );
 }
 
 export default FootAgentComponent;
-

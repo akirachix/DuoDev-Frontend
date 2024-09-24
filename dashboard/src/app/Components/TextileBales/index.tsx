@@ -31,7 +31,7 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
   };
 
   const handleAssignAgent = (bale_id: number) => {
-    router.push(`/recyclers/footagent`);
+    router.push(`/recyclers/footagent/${bale_id}`);
   };
   
   return (
