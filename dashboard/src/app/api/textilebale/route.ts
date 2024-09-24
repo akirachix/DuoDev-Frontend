@@ -11,15 +11,14 @@ export async function GET() {
             headers: {
                 'Content-Type': 'application/json',
             },
+            cache:'no-cache'
         });      
 
         if (!response.ok) {
             return new Response('Failed to fetch textilebales', { status: response.status });
         }
 
-        const bale = await response.json();
-        console.log({ all: bale });
-        
+        const bale = await response.json();        
         return new Response(JSON.stringify(bale), {
             status: 200
         });

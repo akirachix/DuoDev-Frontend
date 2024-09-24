@@ -17,9 +17,7 @@ export async function GET() {
             return new Response('Failed to fetch Agents', { status: response.status });
         }
 
-        const agents = await response.json();
-        console.log({ all: agents });
-        
+        const agents = await response.json();        
         return new Response(JSON.stringify(agents), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },

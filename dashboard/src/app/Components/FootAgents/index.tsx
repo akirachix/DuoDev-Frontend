@@ -2,11 +2,13 @@
 
 import React, { useState } from 'react';
 import { AgentsData } from '../../utils/types';
+import { assignBaleToAgent } from '@/app/utils/assignBaleToAgent';
+import { toast, ToastContainer } from 'react-toastify'; 
+import 'react-toastify/dist/ReactToastify.css'; 
 
 function FootAgentComponent({ footAgent, bale_id }: { footAgent: AgentsData[], bale_id: string }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
-  const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false); 
 
   const totalPages = Math.ceil(footAgent.length / itemsPerPage);
@@ -29,51 +31,40 @@ function FootAgentComponent({ footAgent, bale_id }: { footAgent: AgentsData[], b
   };
 
   const handleAssign = async (agentId: string) => {
-    setLoading(true); 
+    setLoading(true);
     try {
-      const response = await fetch('/api/agent-assignments/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ bale_id, agentId }), 
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        setMessage(`Bale ${bale_id} assigned successfully to agent ${data.agentName}`);
-      } else {
-        setMessage('Error assigning bale. Please try again.');
+      const response = await assignBaleToAgent(bale_id, agentId);
+      if (response && response.assignment_id) {
+        toast.success(`Bale ${bale_id} has been successfully assigned to agent ${agentId}.`);
       }
     } catch (error) {
-      console.error('Error:', error);
-      setMessage('Error assigning bale. Please try again.');
+      toast.error("Bale has already been assigned.");
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
   return (
     <div className="container mx-auto p-4" id='/recyclers/footagent'>
-      {message && <div className="alert bg-green-100 text-green-700 p-2 mb-4 rounded">{message}</div>}
+      <ToastContainer />
 
       <div className="bg-white shadow-lg rounded-lg p-6">
         <table className="table-auto w-full border-collapse">
           <thead>
             <tr>
-              <th className="px-4 py-2 border-b text-left font-semibold">Agent Name</th>
+              <th className="px-4 py-2 border-b text-left font-semibold text-lg">Agent Name</th>
               <th className="px-4 py-2 border-b text-left font-semibold">Location</th>
               <th className="px-4 py-2 border-b text-center font-semibold">Assign</th>
             </tr>
           </thead>
           <tbody>
             {currentAgents.map((agent) => (
-              <tr key={agent.foot_agent_id} className="bg-gray-100 hover:bg-gray-200 transition duration-200">
+              <tr key={agent.agent_id} className="hover:bg-gray-200 transition duration-200 text-md">
                 <td className="px-4 py-2 border-b">{agent.agent_name}</td>
                 <td className="px-4 py-2 border-b">{agent.location}</td>
                 <td className="px-4 py-2 border-b text-center">
                   <button
-                    onClick={() => handleAssign(agent.foot_agent_id)}
+                    onClick={() => handleAssign(agent.agent_id)}
                     className={`bg-green-600 text-white px-3 py-1 rounded-lg hover:bg-green-700 transition duration-300 items-left ${loading && 'opacity-50'}`}
                     disabled={loading}
                   >

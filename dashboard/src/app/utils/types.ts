@@ -23,6 +23,7 @@ export  interface TextileBaleData {
         status: string;
         price:string;
         bale_id:number
+        trader:string | null
 }
 
 
@@ -32,13 +33,14 @@ export interface AgentsData{
         agent_name:string;
         location:string;
         user:number;
-        foot_agent_id: string;
+        agent_id: string;
         textile_bale_id: string
 }
 
 export interface AssignmentData{
         foot_agent_id: string,
         textile_bale_id: string,
+        agent_id: string,
         bale_id:string,
         agent_name:string
 }

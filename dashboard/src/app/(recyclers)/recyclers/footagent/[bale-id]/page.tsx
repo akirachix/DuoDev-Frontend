@@ -7,8 +7,6 @@ import FootAgentComponent from '@/app/Components/FootAgents';
 
 
 function FootAgent({params}:{params:{'bale-id':string}}) {
-
-  console.log(params['bale-id']);
   const bale_id = params['bale-id'];
   
   const { agent, loading, error } = useGetFootAgents();

@@ -12,11 +12,10 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        const { agent_name, bale_id } = await request.json();
+        const { agent_id, bale_id } = await request.json();
 
         
-        if (!agent_name || !bale_id) {
-            console.error('Missing agentName or bale_id in request.');
+        if (!agent_id || !bale_id) {
             return NextResponse.json(
                 { error: 'Both agentName and bale_id are required.' },
                 { status: 400 }
@@ -28,11 +27,8 @@ export async function POST(request: NextRequest) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ agent_name, bale_id }),
+            body: JSON.stringify({ foot_agent_id: agent_id, textile_bale_id:+bale_id }),
         });
-        
-
-        
         const backendResponseText = await response.text();
         console.log('Backend response:', backendResponseText, 'Status:', response.status);
 

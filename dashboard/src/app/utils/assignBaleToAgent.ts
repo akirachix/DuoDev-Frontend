@@ -1,11 +1,16 @@
-export const assignBaleToAgent = async (bale_id: string, agent_name: string): Promise<any> => {
+export const assignBaleToAgent = async (bale_id: string, agent_id: string): Promise<any> => {
+
+
+  console.log('bale_id:', bale_id);
+  console.log('agent_id:', agent_id);
   
-  const response = await fetch('/api/agent-assignments/', {
-    method: 'POST',
+  
+  const response = await fetch('/api/assign-bale/', {
+    method: 'POST', 
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ bale_id, agent_name }),
+    body: JSON.stringify({ bale_id, agent_id }),
   });
 
   if (!response.ok) {
