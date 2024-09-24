@@ -35,36 +35,31 @@ export async function POST(request: NextRequest) {
             },
             body: JSON.stringify({ phone_number, amount }),
         });
-
-        // Log the full response for debugging
-        const textResponse = await response.text();
-        console.log('Backend response:', textResponse, 'Status:', response.status);
+   
+        
+     
 
         // Handle errors from the backend API
         if (!response.ok) {
-            try {
-                const errorData = JSON.parse(textResponse);
-                return NextResponse.json(
-                    { error: errorData.errors || 'Failed complete purchase' },
-                    { status: response.status }
-                );
-            } catch (e) {
-                // If response is not valid JSON
-                return NextResponse.json(
-                    { error: 'Unexpected response format from backend' },
-                    { status: response.status }
-                );
-            }
+            const textResponse = await response.text();
+            return NextResponse.json(
+                { error: textResponse || 'Failed complete purchase' },
+                { status: response.status }
+            );
+       
         }
+console.log('are we here');
 
         // Parse the response and send it back to the client
-        const result = JSON.parse(textResponse);
+        const result = JSON.stringify(await response.json());
+ 
+        
         console.log('payment successfully:', result);
-        return NextResponse.json(result, { status: 201 });
+        return new Response(result, { status: 201 });
     } catch (error) {
-        console.error('Error during payment route.ts:', error);
+        console.error('Error during payment route.ts:', (error as Error).message );
         return NextResponse.json(
-            { error: 'Error during payment route.ts' },
+            { error: (error as Error).message },
             { status: 500 }
         );
     }

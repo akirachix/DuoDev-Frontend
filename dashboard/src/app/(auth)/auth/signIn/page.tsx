@@ -41,7 +41,7 @@ export default function SignIn() {
 
                 // Redirect based on user role
                 if (role === 'seller') {
-                    window.location.href = '/seller';
+                    window.location.href = '/seller/home';
                 } else if (role === 'recycler') {
                     window.location.href = '/recycler';
                 } else {

@@ -1,30 +1,15 @@
-export async function GET() {
-    const baseUrl = process.env.BASE_URL;
+// In your route.ts
+import { NextResponse } from 'next/server';
+import { NextApiRequest } from 'next';
 
-    if (!baseUrl) {
-        return new Response('Base URL is not configured', { status: 500 });
-    }
+export async function POST(request: Request) {
+    const orderData = await request.json();
 
     try {
-        const response = await fetch(`${baseUrl}/api/orders/`, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        });
-
-        if (!response.ok) {
-            return new Response('Failed to fetch orders', { status: response.status });
-        }
-
-        const orders = await response.json();
-        console.log({ all: orders });
-        
-        return new Response(JSON.stringify(orders), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' },
-        });
+        const orderResult = await createOrder(orderData);
+        return NextResponse.json({ order: orderResult }, { status: 201 });
     } catch (error) {
-        return new Response('Server error', { status: 500 });
+        console.error('Error creating order:', error);
+        return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
     }
 }
