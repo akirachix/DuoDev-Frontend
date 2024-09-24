@@ -17,9 +17,7 @@ export async function GET() {
             return new Response('Failed to fetch orders', { status: response.status });
         }
 
-        const orders = await response.json();
-        console.log({ all: orders });
-        
+        const orders = await response.json();        
         return new Response(JSON.stringify(orders), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
