@@ -19,7 +19,7 @@ export default function Products() {
     const [cartVisible, setCartVisible] = useState(false);
     const router = useRouter();  // Use router for navigation
     const imageurl = process.env.NEXT_PUBLIC_IMAGE_URL;
-    console.log(imageurl);
+
 
     // Use the context functions
     const { cart, addToCart, increaseQuantity, decreaseQuantity, totalPrice } = useCart();
@@ -97,25 +97,24 @@ export default function Products() {
                             {filteredProducts.map((product) => (
                                 <div
                                     key={product.product_id}
-                                    className="border p-4 rounded shadow text-artisticblue flex flex-col justify-between"
+                                    className="border p-3 rounded shadow text-artisticblue flex flex-col justify-between"
                                 >
-
-
                                     <div className="mb-4 flex justify-center">
                                         <Image
                                             src={`${imageurl}${product.image}`}
-                                            width={300}
+                                            width={200}
                                             height={200}
+                                            className='w-full h-full object-contain'
                                             alt={product.product_name}
                                         />
                                     </div>
-                                    <div className="mb-4">
+                                    <div className="">
                                         <h2 className="text-[16px] font-semi-bold">{product.product_name}</h2>
                                         <p className="font-semi-bold ">Price: Ksh{product.price}</p>
                                         <p className="font-semi-bold ">Material: {product.material}</p>
                                         <p className="font-semi-bold mb-3">Description: {product.description}</p>
                                     </div>
-                                    <div className="flex justify-center mt-auto">
+                                    <div className="flex justify-center">
                                         <button
                                             type="button"
                                             className="bg-forestgreen text-white py-2 px-8 hover:bg-opacity-85 rounded-[10px]"
