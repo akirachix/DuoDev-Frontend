@@ -7,7 +7,7 @@ const useGetBales = () => {
   const [bales, setBales] = useState<TextileBaleData[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-const [refetchToggle, setRefetchToggle] = useState(false)
+  const [refetch, setRefetch] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchBales = async () => {
@@ -31,9 +31,9 @@ const [refetchToggle, setRefetchToggle] = useState(false)
     };
 
     fetchBales();
-  }, [refetchToggle]);
+  }, [refetch]);
 
-  return { bales, loading, error , refetch: () => setRefetchToggle(!refetchToggle)};
+  return { bales, loading, error, refetch: () => setRefetch(!refetch) };
 };
 
-export default useGetBales;
+export default useGetBales

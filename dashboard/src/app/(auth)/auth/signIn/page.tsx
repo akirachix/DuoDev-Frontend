@@ -43,7 +43,7 @@ export default function SignIn() {
                 if (role === 'seller') {
                     window.location.href = '/seller/home';
                 } else if (role === 'recycler') {
-                    window.location.href = '/recycler';
+                    window.location.href = '/recyclers';
                 } else {
                     window.location.href = '/publicUser/marketplace';
                 }

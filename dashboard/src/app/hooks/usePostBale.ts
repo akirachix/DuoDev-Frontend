@@ -15,7 +15,7 @@ const usePostBale = () => {
     formData.append('waste_type', newBale.waste_type);
     formData.append('weight', newBale.weight.toString());
     formData.append('location', newBale.location);
-    formData.append('phone_number', newBale.phone_number.toString());
+    formData.append('phone_number', newBale.phone_number? newBale.phone_number.toString() : '');
     formData.append('price', newBale.price.toString());
     formData.append('posted_by', newBale.posted_by.toString());
 
