@@ -6,6 +6,16 @@ import { TbXboxXFilled } from "react-icons/tb"; // Close Icon
 import { ClipLoader } from 'react-spinners'; // Loader
 import { toast, ToastContainer } from 'react-toastify'; // Toasts
 import 'react-toastify/dist/ReactToastify.css'; // Toast CSS
+type WasteType = 'Denim' | 'Cotton' | 'Polyester' | 'Wool' | 'Mixed Fibers' | 'Leather';
+// Price ranges for different materials
+const priceSheet: Record<WasteType, { min: number; max: number }> = {
+    'Denim': { min: 405, max: 675 },
+    'Cotton': { min: 337, max: 540 },
+    'Polyester': { min: 203, max: 405 },
+    'Wool': { min: 540, max: 810 },
+    'Mixed Fibers': { min: 270, max: 472 },
+    'Leather': { min: 675, max: 1080 },
+};
 
 function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBaleData[], refetch: () => void }) {
     const [formVisible, setFormVisible] = useState(false);
@@ -27,22 +37,35 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
         setFormVisible(!formVisible);
     };
 
-    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setNewBale((prev) => ({ ...prev, [name]: value }));
+        if (name === 'weight' || name === 'waste_type') {
+            calculatePrice(value);
+        }
     };
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (files && files.length > 0) {
-            console.log('Selected file:', files[0]); // Log the selected file for debugging
             setNewBale((prev) => ({ ...prev, image: files[0] }));
         } else {
-            console.warn('No file selected.');
             setNewBale((prev) => ({ ...prev, image: null }));
         }
     };
 
+    function calculatePrice(value: string) {
+        const { waste_type, weight } = newBale;
+        const selectedMaterial = waste_type || value;
+    
+        if (selectedMaterial && weight && priceSheet[selectedMaterial as WasteType]) {
+            const materialPrices = priceSheet[selectedMaterial as WasteType];
+            const materialWeight = parseFloat(weight);
+            const minPrice = materialPrices.min * materialWeight;
+            const maxPrice = materialPrices.max * materialWeight;
+            setNewBale((prev) => ({ ...prev, price: `${minPrice} - ${maxPrice}` }));
+        }
+    }
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         
@@ -57,12 +80,9 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
         if (newBale.image) {
             formData.append('image', newBale.image);
         } else {
-            console.error('No image file selected.');
             toast.error('Please select an image file to upload.');
             return;
         }
-    
-        console.log('Submitting FormData:', Array.from(formData.entries())); // Log FormData contents
     
         try {
             setIsSubmitting(true);
@@ -74,14 +94,12 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
             if (response.ok) {
                 toast.success('Textile bale posted successfully!');
                 setFormVisible(false);
-                refetch()
+                refetch();
             } else {
                 const errorData = await response.json();
-                console.error('Error response:', errorData);
                 toast.error(`Failed to post textile bale: ${errorData.errors?.image?.[0] || 'An unknown error occurred.'}`);
             }
         } catch (error) {
-            console.error('Error posting the bale:', error);
             toast.error('Server error');
         } finally {
             setIsSubmitting(false);
@@ -119,7 +137,7 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
             <button
                 type="button"
                 onClick={toggleForm}
-                className="fixed bottom-10 right-10 bg-green-600 text-white py-2 px-4 rounded-full shadow-lg hover:bg-green-700 transition"
+                className="fixed top-[18%] right-10 bg-green-600 text-white py-5  px-4 rounded-full shadow-lg hover:bg-green-700 transition"
             >
                 Post a new bale
             </button>
@@ -137,15 +155,21 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                             <TbXboxXFilled size={24} />
                         </button>
                         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-                            <input
-                                type="text"
+                            <select
                                 name="waste_type"
-                                placeholder='Type of material'
                                 className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
                                 value={newBale.waste_type}
                                 onChange={handleInputChange}
                                 required
-                            />
+                            >
+                                <option value="">Select Material</option>
+                                <option value="Denim">Denim</option>
+                                <option value="Cotton">Cotton</option>
+                                <option value="Polyester">Polyester</option>
+                                <option value="Wool">Wool</option>
+                                <option value="Mixed Fibers">Mixed Fibers</option>
+                                <option value="Leather">Leather</option>
+                            </select>
                             <input
                                 type="number"
                                 name="weight"
@@ -174,13 +198,12 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                                 required
                             />
                             <input
-                                type="number"
+                                type="text"
                                 name="price"
-                                placeholder="Price"
+                                placeholder="Auto-calculated price"
                                 className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
                                 value={newBale.price}
-                                onChange={handleInputChange}
-                                required
+                                readOnly
                             />
                             <input
                                 type="file"
@@ -192,17 +215,10 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                             />
                             <button
                                 type="submit"
-                                className="bg-forestgreen text-white py-2 w-full rounded hover:bg-green-600 transition"
-                                disabled={isSubmitting} // Disable button while submitting
+                                disabled={isSubmitting}
+                                className="bg-green-600 text-white rounded-lg py-3 w-full hover:bg-green-700 transition"
                             >
-                                {isSubmitting ? (
-                                    <div className="flex justify-center items-center">
-                                        <ClipLoader size={20} color="#fff" />
-                                        <span className="ml-2">Posting...</span>
-                                    </div>
-                                ) : (
-                                    'Post'
-                                )}
+                                {isSubmitting ? <ClipLoader size={24} color="#fff" /> : 'Post'}
                             </button>
                         </form>
                     </div>
