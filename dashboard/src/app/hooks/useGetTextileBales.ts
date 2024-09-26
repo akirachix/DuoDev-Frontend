@@ -13,11 +13,7 @@ const useGetBales = () => {
     const fetchBales = async () => {
       try {
         const data = await getBales();
-        setBales(data?.data);
-
-        console.log({ all: data?.data });
-        
-
+        setBales(data?.data);     
 
       } catch (error) {
         if (error instanceof Error) {

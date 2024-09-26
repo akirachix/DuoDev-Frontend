@@ -9,6 +9,7 @@ import { useRouter } from 'next/navigation';
 function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
+  const imageurl = process.env.NEXT_PUBLIC_IMAGE_URL;
 
   const router = useRouter(); 
   const totalPages = Math.ceil(textileBales.length / itemsPerPage);
@@ -41,7 +42,7 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
           <div key={bale.bale_id} id='recyclers' className="flex border-2 border-black-300 shadow-lg p-4 bg-white rounded-lg justify-around">
             <div >
               <Image
-                src="/pillow-eco.webp"
+                src= '/pillow-eco.webp'
                 alt="bale"
                 width={150}
                 height={150}
