@@ -9,8 +9,6 @@ import { useRouter } from 'next/navigation';
 function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
-  const imageurl = process.env.NEXT_PUBLIC_IMAGE_URL;
-
   const router = useRouter(); 
   const totalPages = Math.ceil(textileBales.length / itemsPerPage);
 
