@@ -7,6 +7,7 @@ export interface OrderData {
   status: string;
   order_number: string;
   total_price: string;
+  
 }
 
 // Product List type

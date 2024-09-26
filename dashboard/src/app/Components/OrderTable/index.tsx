@@ -29,7 +29,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
   };
 
   return (
-    <div>
+    <div id='recyclers/orders'>
       <table className="table-auto w-full">
         <thead>
           <tr>

@@ -8,9 +8,7 @@ export const getBales = async() => {
           throw new Error('Failed to fetch textilebales');
         }
 
-        const data = await response.json();
-        console.log({mydata:data});
-        
+        const data = await response.json();        
         
 
     return data
