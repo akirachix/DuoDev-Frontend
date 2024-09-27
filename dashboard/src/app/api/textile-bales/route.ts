@@ -109,7 +109,6 @@ export async function GET() {
         }
 
         const bale = await response.json();
-        console.log({ all: bale });
         
         return new Response(JSON.stringify(bale), {
             status: 200
