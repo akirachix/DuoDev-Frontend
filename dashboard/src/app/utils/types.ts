@@ -1,3 +1,5 @@
+import { Interaction } from "chart.js";
+
 // Order List type
 export interface OrderData {
   id: number;
@@ -63,4 +65,21 @@ export  interface OrderData {
         bale_id: number;
         created_at: string;
         updated_at: string;
+      }
+
+
+
+      export interface TradersInteractedData{
+        agent_name:string;
+        interaction_count:number;
+      }
+
+      export interface SalesData{
+        month:string;
+        total_sales:string;
+      }
+
+
+      export interface SellersData {
+        sellers: string[];
       }
