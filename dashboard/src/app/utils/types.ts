@@ -1,5 +1,3 @@
-import { Interaction } from "chart.js";
-
 // Order List type
 export interface OrderData {
   id: number;
