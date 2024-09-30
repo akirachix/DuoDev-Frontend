@@ -11,7 +11,6 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
   const itemsPerPage = 4;
   const router = useRouter(); 
   const totalPages = Math.ceil(textileBales.length / itemsPerPage);
-  const imageurl = process.env.NEXT_PUBLIC_IMAGE_URL;
 
   const currentBales = textileBales.slice(
     (currentPage - 1) * itemsPerPage,
