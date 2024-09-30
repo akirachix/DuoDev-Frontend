@@ -20,10 +20,9 @@ const Traders_Interacted = () => {
   return (
     <div className='flex flex-col items-center '>
       <h1 className="text-md font-bold text-center text-forestgreen mb-2">Interaction With Traders</h1>
-      
-      <ResponsiveContainer width="40%" height={250} >
+      <ResponsiveContainer width='40%' height={220}>
         <BarChart data={formattedData}>
-          <CartesianGrid strokeDasharray="3 3" />
+          <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />

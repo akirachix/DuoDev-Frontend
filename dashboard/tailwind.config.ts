@@ -12,7 +12,9 @@ const config: Config = {
         artisticblue : "#002A3D",
         coldsteel : "#F8F7F4",
         forestgreen : "#228B22",
-      }
+      },
+     
+      
     },
   },
   plugins: [],

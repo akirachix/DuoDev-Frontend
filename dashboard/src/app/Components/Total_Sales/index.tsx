@@ -14,9 +14,9 @@ const Monthly_Sales = () => {
   if (error) return <p>Error fetching sales data: {error}</p>;
 
   return (
-    <div className='flex flex-col items-right'>
+    <div className='flex flex-col items-left '>
       <h1 className="text-md font-bold text-left pl-20 text-forestgreen mb-2">Monthly Sales</h1>
-      <ResponsiveContainer width="40%" height={250}>
+      <ResponsiveContainer  width="45%" height={220}>
         <LineChart data={formattedData}>
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis dataKey="name" />
