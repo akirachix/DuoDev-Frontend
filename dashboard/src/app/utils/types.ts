@@ -64,3 +64,20 @@ export  interface OrderData {
         created_at: string;
         updated_at: string;
       }
+
+
+
+      export interface TradersInteractedData{
+        agent_name:string;
+        interaction_count:number;
+      }
+
+      export interface SalesData{
+        month:string;
+        total_sales:string;
+      }
+
+
+      export interface SellersData {
+        sellers: string[];
+      }

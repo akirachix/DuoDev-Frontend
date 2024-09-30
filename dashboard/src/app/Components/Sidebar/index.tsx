@@ -43,10 +43,10 @@ export default function Sidebar() {
 
           <li>
             <Link
-              href="/dashboard"
-              onClick={() => handleLinkClick("/dashboard")}
+              href="/recyclers/dashboard"
+              onClick={() => handleLinkClick("/recyclers/dashboard")}
               className={`flex items-center p-2 text-white text-xl transition-all duration-300 hover:bg-forestgreen ${
-                activeLink === "/dashboard" ? "text-forestgreen" : ""
+                activeLink === "/recyclers/dashboard" ? "text-forestgreen" : ""
               }`}
             >
               <span className="ml-3">Dashboard</span>

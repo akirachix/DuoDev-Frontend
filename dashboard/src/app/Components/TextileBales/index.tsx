@@ -40,9 +40,9 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
           <div key={bale.bale_id} id='recyclers' className="flex border-2 border-black-300 shadow-lg p-4 bg-white rounded-lg justify-around">
             <div >
               <Image
-                src= '/pillow-eco.webp'
+                src={"/pillow-eco.webp"}  
                 alt="bale"
-                width={150}
+                width={150} 
                 height={150}
                 className="rounded-lg"
               />
