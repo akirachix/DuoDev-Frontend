@@ -4,7 +4,7 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
-import { setCookie } from 'cookies-next';
+import { setCookie, getCookie } from 'cookies-next';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import { userPayment } from '../hooks/userpayment';
@@ -23,6 +23,7 @@ const validationSchema = z.object({
 export default function CheckoutPage() {
     const router = useRouter(); // This should work correctly now
     const [totalPrice, setTotalPrice] = useState(0);
+    const [phoneNumber, setPhoneNumber] = useState(""); // State for phone number
 
     const { register, handleSubmit, setValue, formState: { errors, isSubmitting } } = useForm<z.infer<typeof validationSchema>>({
         resolver: zodResolver(validationSchema),
@@ -30,6 +31,23 @@ export default function CheckoutPage() {
     });
 
     useEffect(() => {
+        // Get user data from cookies
+        const user = getCookie('userData'); // This retrieves the cookie as a string
+
+        if (user) {
+            try {
+                const parsedUser = JSON.parse(user as string); // Parse the cookie string into an object
+                const phonenumber = parsedUser.phone_number; // Access phone_number from the parsed object
+                console.log(phonenumber); // Log the phone number
+                setPhoneNumber(phonenumber); // Set the phone number state
+                setValue('phone_number', phonenumber); // Set the phone number in the form
+            } catch (error) {
+                console.error("Failed to parse userData cookie:", error); // Handle JSON parsing errors
+            }
+        } else {
+            console.log("No user data found in cookies."); // Handle case where the cookie does not exist
+        }
+
         const storedPrice = sessionStorage.getItem('totalPrice');
         if (storedPrice) {
             setTotalPrice(JSON.parse(storedPrice));
@@ -41,14 +59,14 @@ export default function CheckoutPage() {
         const { phone_number, location } = data;
         const formattedPhoneNumber = Number(phone_number);
         const formattedAmount = totalPrice;
-    
+
         // Set cookies before making the payment request
         setCookie('phoneNumber', formattedPhoneNumber);
         setCookie('totalPrice', formattedAmount);
         setCookie('location', location);
         setCookie('userId', 1); // Replace with the actual user ID you have
         setCookie('productId', 1); // Replace with the actual product ID you have
-    
+
         try {
             const response = await userPayment({ phone_number: formattedPhoneNumber, amount: formattedAmount, location });
             console.log(response);
@@ -56,7 +74,7 @@ export default function CheckoutPage() {
                 toast.error('Payment response is not valid.');
                 return;
             }
-    
+
             if (response.ResponseCode !== "0") {
                 toast.error('Payment failed: ' + response.data.ResponseDescription);
                 return;
@@ -65,7 +83,7 @@ export default function CheckoutPage() {
             console.log(CheckoutRequestID);
             
             toast.success(`Payment processed successfully! A payment request has been sent to ${phone_number}. Please complete it on your phone.`);
-    
+
             // Redirect to payment status page
             router.push(`/checkpaymentstatus?checkout_request_id=${CheckoutRequestID}`);
         } catch (error: unknown) {
@@ -83,7 +101,12 @@ export default function CheckoutPage() {
                         <input
                             type="text"
                             placeholder="254 ........"
-                            {...register('phone_number')}
+                            value={phoneNumber} // Use state for input value
+                            {...register('phone_number', {
+                                onChange: (e) => {
+                                    setPhoneNumber(e.target.value); // Update state on change
+                                }
+                            })}
                             className={`bg-coldsteel py-5 px-2 w-full rounded-[10px] focus:outline-none focus:border-2 ${errors.phone_number ? 'border-red-500' : ''}`}
                         />
                         {errors.phone_number && <p className="text-red-500">{errors.phone_number.message}</p>}
@@ -93,7 +116,7 @@ export default function CheckoutPage() {
                         type="text"
                         placeholder="Total price"
                         readOnly
-                        className="bg-coldsteel py-5 px-2 rounded-[10px] text-gray-400 focus:outline-none focus:border-2"
+                        className="bg-coldsteel py-5 px-2 rounded-[10px]  focus:outline-none focus:border-2"
                         value={`Ksh ${totalPrice}`}
                     />
                     <input

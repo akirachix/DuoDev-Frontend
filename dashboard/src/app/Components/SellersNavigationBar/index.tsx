@@ -5,11 +5,13 @@ export default function SellersNavigationBar() {
         <div>
             <nav className="bg-artisticblue w-full text-white py-2  flex justify-between items-center">
                 <section>
-                    <Image
-                        src={"/logo.jpeg"}
-                        alt="logo"
-                        width={250}
-                        height={100} />
+                    <Link href={"/seller/home"}>
+                        <Image
+                            src={"/logo.jpeg"}
+                            alt="logo"
+                            width={250}
+                            height={100} />
+                    </Link>
                 </section>
                 <section>
                     <ul className="flex gap-10 lg:mr-20 mr-10">

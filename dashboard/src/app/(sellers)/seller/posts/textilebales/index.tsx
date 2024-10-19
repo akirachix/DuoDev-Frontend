@@ -64,7 +64,9 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
             const materialPricePerKg = priceSheet[selectedMaterial as WasteType];
             const materialWeight = parseFloat(weight);
             const totalPrice = materialPricePerKg * materialWeight;
-            setNewBale((prev) => ({ ...prev, price: `${totalPrice}` })); // Set single price
+            // Format the price with commas
+            const formattedPrice = totalPrice.toLocaleString();
+            setNewBale((prev) => ({ ...prev, price: formattedPrice })); // Set formatted price
         }
     }
 
@@ -76,7 +78,7 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
         formData.append('weight', newBale.weight);
         formData.append('location', newBale.location);
         formData.append('phone_number', newBale.phone_number);
-        formData.append('price', newBale.price);
+        formData.append('price', newBale.price.replace(/,/g, '')); // Send unformatted price to the server
         formData.append('posted_by', newBale.posted_by);
 
         if (newBale.image) {
@@ -129,7 +131,7 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                             <p>Type: {bale.waste_type}</p>
                             <p>Contacts: {bale.phone_number || 'N/A'}</p>
                             <p>Location: {bale.location}</p>
-                            <p>Price: Ksh {bale.price}</p>
+                            <p>Price: Ksh {bale.price.toLocaleString()}</p> {/* Format price with commas */}
                         </div>
                     </div>
                 ))}
@@ -139,7 +141,7 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
             <button
                 type="button"
                 onClick={toggleForm}
-                className="fixed top-[18%] right-10 bg-green-600 text-white py-5  px-4 rounded-full shadow-lg hover:bg-green-700 transition"
+                className="fixed top-[18%] right-10 bg-green-600 text-white py-5 px-4 rounded-full shadow-lg hover:bg-green-700 transition"
             >
                 Post a new bale
             </button>
@@ -202,9 +204,9 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                             <input
                                 type="text"
                                 name="price"
-                                placeholder="Auto-calculated price"
+                                placeholder="Calculated price"
                                 className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
-                                value={newBale.price}
+                                value={`Ksh ${newBale.price}`} 
                                 readOnly
                             />
                             <input
@@ -217,10 +219,10 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                             />
                             <button
                                 type="submit"
-                                className={`bg-artisticblue text-white py-3 rounded-lg ${isSubmitting ? 'cursor-not-allowed' : ''}`}
+                                className={`bg-green-600 text-white py-2 rounded-lg ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-green-700'}`}
                                 disabled={isSubmitting}
                             >
-                                {isSubmitting ? <ClipLoader size={20} color="#ffffff" /> : 'Submit'}
+                                {isSubmitting ? <ClipLoader size={20} color={"white"} /> : 'Submit'}
                             </button>
                         </form>
                     </div>
