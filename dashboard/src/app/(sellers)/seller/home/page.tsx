@@ -2,35 +2,44 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
+
 interface Material {
     type: string;
-    priceRange: string;
+    price: string; // Changed to a single price value
     description: string;
     minPrice: number;
     maxPrice: number;
     image: string;
 }
 
+// Calculate average price from min and max price
+const calculateAveragePrice = (minPrice: number, maxPrice: number) => {
+    return ((minPrice + maxPrice) / 2).toFixed(2); // Keeping two decimal places
+}
+
 const sellerMaterials: Material[] = [
-    { type: 'Denim', priceRange: 'KSh 405 - KSh 675', description: 'Durable and high demand', minPrice: 405, maxPrice: 675, image: '/images/denim.jpg' },
-    { type: 'Cotton', priceRange: 'KSh 337 - KSh 540', description: 'Common textile with moderate pricing', minPrice: 337, maxPrice: 540, image: '/images/cotton.jpg' },
-    { type: 'Polyester', priceRange: 'KSh 203 - KSh 405', description: 'Low demand and cheaper to recycle', minPrice: 203, maxPrice: 405, image: '/images/polyester.jpg' },
-    { type: 'Wool', priceRange: 'KSh 540 - KSh 810', description: 'High quality, commands premium pricing', minPrice: 540, maxPrice: 810, image: '/images/wool.jpg' },
-    { type: 'Mixed Fibers', priceRange: 'KSh 270 - KSh 472', description: 'Challenging to process, lower value', minPrice: 270, maxPrice: 472, image: '/images/mixed.jpg' },
-    { type: 'Leather', priceRange: 'KSh 675 - KSh 1080', description: 'Valuable, durable, premium pricing', minPrice: 675, maxPrice: 1080, image: '/images/leather.jpg' },
-    { type: 'Silk', priceRange: 'KSh 810 - KSh 1080', description: 'Luxury material, commands high prices', minPrice: 810, maxPrice: 1080, image: '/images/silk.jpg' },
+    { type: 'Denim', price: `KSh ${calculateAveragePrice(405, 675)}`, description: 'Durable and high demand', minPrice: 405, maxPrice: 675, image: '/images/denim.jpg' },
+    { type: 'Cotton', price: `KSh ${calculateAveragePrice(337, 540)}`, description: 'Common textile with moderate pricing', minPrice: 337, maxPrice: 540, image: '/images/cotton.jpg' },
+    { type: 'Polyester', price: `KSh ${calculateAveragePrice(203, 405)}`, description: 'Low demand and cheaper to recycle', minPrice: 203, maxPrice: 405, image: '/images/polyester.jpg' },
+    { type: 'Wool', price: `KSh ${calculateAveragePrice(540, 810)}`, description: 'High quality, commands premium pricing', minPrice: 540, maxPrice: 810, image: '/images/wool.jpg' },
+    { type: 'Mixed Fibers', price: `KSh ${calculateAveragePrice(270, 472)}`, description: 'Challenging to process, lower value', minPrice: 270, maxPrice: 472, image: '/images/mixed.jpg' },
+    { type: 'Leather', price: `KSh ${calculateAveragePrice(675, 1080)}`, description: 'Valuable, durable, premium pricing', minPrice: 675, maxPrice: 1080, image: '/images/leather.jpg' },
+    { type: 'Silk', price: `KSh ${calculateAveragePrice(810, 1080)}`, description: 'Luxury material, commands high prices', minPrice: 810, maxPrice: 1080, image: '/images/silk.jpg' },
 ];
 
 export default function SellerHomePage() {
     const [selectedMaterial, setSelectedMaterial] = useState<Material | null>(null);
-    const [weight, setWeight] = useState<number>(0);
-    const [estimatedPrice, setEstimatedPrice] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
+    const [weight, setWeight] = useState<number | ''>(''); // Change initial state to empty string
+    const [estimatedPrice, setEstimatedPrice] = useState<number>(0);
 
     const calculatePrice = (weight: number) => {
-        if (selectedMaterial && weight > 0) {
-            const minPrice = weight * selectedMaterial.minPrice;
-            const maxPrice = weight * selectedMaterial.maxPrice;
-            setEstimatedPrice({ min: minPrice, max: maxPrice });
+        if (selectedMaterial && typeof weight === 'number' && weight > 0) {
+            // Calculate the average price per kg
+            const averagePricePerKg = (selectedMaterial.minPrice + selectedMaterial.maxPrice) / 2;
+            const totalPrice = weight * averagePricePerKg;
+            setEstimatedPrice(totalPrice);
+        } else {
+            setEstimatedPrice(0); // Reset if weight is invalid
         }
     };
 
@@ -53,6 +62,8 @@ export default function SellerHomePage() {
                     <Image
                         src={selectedMaterial.image}
                         alt={selectedMaterial.type}
+                        width={500}
+                        height={500}
                         className="w-full h-60 object-cover rounded-lg mt-4" />
 
                     {/* Price Calculator */}
@@ -64,17 +75,30 @@ export default function SellerHomePage() {
                             type="number"
                             className="w-full p-3 border border-gray-300 rounded-lg"
                             value={weight}
+                            min="0.01" // Prevent entering zero
+                            step="0.01" // Allow decimal input
                             onChange={(e) => {
-                                setWeight(Number(e.target.value));
-                                calculatePrice(Number(e.target.value));
+                                const value = e.target.value;
+                                if (value !== '') {
+                                    const numValue = Number(value);
+                                    setWeight(numValue); // Update weight
+                                    if (numValue > 0) {
+                                        calculatePrice(numValue); // Calculate price if weight is valid
+                                    } else {
+                                        setEstimatedPrice(0); // Reset if weight is 0 or negative
+                                    }
+                                } else {
+                                    setWeight(''); // Reset weight state if input is empty
+                                    setEstimatedPrice(0); // Reset price if input is empty
+                                }
                             }}
                             placeholder="Enter weight in kilograms"
                         />
-                        {weight > 0 && (
+                        {typeof weight === 'number' && weight > 0 && (
                             <div className="mt-4">
                                 <p className="text-lg text-gray-800">Estimated Price:</p>
                                 <p className="text-xl font-bold text-gray-900">
-                                    Min: KSh {estimatedPrice.min.toLocaleString()} - Max: KSh {estimatedPrice.max.toLocaleString()}
+                                    KSh {estimatedPrice.toLocaleString()}
                                 </p>
                             </div>
                         )}
@@ -92,17 +116,19 @@ export default function SellerHomePage() {
                     <div key={index} className="bg-white max-w-xs m-4 p-6 rounded-lg shadow-lg hover:bg-gray-100 transition cursor-pointer" onClick={() => setSelectedMaterial(material)}>
                         <Image src={material.image}
                             alt={material.type}
+                            width={500}
+                            height={500}
                             className="w-full h-40 object-cover rounded-t-lg" />
                         <div className="p-4">
                             <h2 className="text-2xl font-semibold text-gray-800">{material.type} (1kg)</h2>
-                            <p className="text-lg text-gray-600">Price: {material.priceRange}</p>
+                            <p className="text-lg text-gray-600">Average Price: {material.price}</p>
                         </div>
                     </div>
                 ))}
             </div>
 
             {/* Footer */}
-            <footer className="mt-12 p-6  bg-forestgreen text-white text-center">
+            <footer className="mt-12 p-6 bg-forestgreen text-white text-center">
                 <p>&copy; 2024 Eco-Threads Hub. All Rights Reserved.</p>
                 <div className="mt-2">
                     <a href="#" className="hover:underline">Contact Us</a>
