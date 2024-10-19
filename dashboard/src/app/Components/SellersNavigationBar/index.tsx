@@ -3,13 +3,13 @@ import Link from "next/link"
 export default function SellersNavigationBar() {
     return (
         <div>
-            <nav className="bg-artisticblue w-full text-white py-5 flex justify-between items-center">
+            <nav className="bg-artisticblue w-full text-white py-2  flex justify-between items-center">
                 <section>
                     <Image
                         src={"/logo.jpeg"}
                         alt="logo"
-                        width={300}
-                        height={200} />
+                        width={250}
+                        height={100} />
                 </section>
                 <section>
                     <ul className="flex gap-10 lg:mr-20 mr-10">

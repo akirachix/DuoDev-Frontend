@@ -6,15 +6,17 @@ import { TbXboxXFilled } from "react-icons/tb"; // Close Icon
 import { ClipLoader } from 'react-spinners'; // Loader
 import { toast, ToastContainer } from 'react-toastify'; // Toasts
 import 'react-toastify/dist/ReactToastify.css'; // Toast CSS
+
 type WasteType = 'Denim' | 'Cotton' | 'Polyester' | 'Wool' | 'Mixed Fibers' | 'Leather';
-// Price ranges for different materials
-const priceSheet: Record<WasteType, { min: number; max: number }> = {
-    'Denim': { min: 405, max: 675 },
-    'Cotton': { min: 337, max: 540 },
-    'Polyester': { min: 203, max: 405 },
-    'Wool': { min: 540, max: 810 },
-    'Mixed Fibers': { min: 270, max: 472 },
-    'Leather': { min: 675, max: 1080 },
+
+// Price per kg for different materials
+const priceSheet: Record<WasteType, number> = {
+    'Denim': 540, // Average price per kg
+    'Cotton': 450,
+    'Polyester': 300,
+    'Wool': 675,
+    'Mixed Fibers': 370,
+    'Leather': 830,
 };
 
 function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBaleData[], refetch: () => void }) {
@@ -57,18 +59,18 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
     function calculatePrice(value: string) {
         const { waste_type, weight } = newBale;
         const selectedMaterial = waste_type || value;
-    
+
         if (selectedMaterial && weight && priceSheet[selectedMaterial as WasteType]) {
-            const materialPrices = priceSheet[selectedMaterial as WasteType];
+            const materialPricePerKg = priceSheet[selectedMaterial as WasteType];
             const materialWeight = parseFloat(weight);
-            const minPrice = materialPrices.min * materialWeight;
-            const maxPrice = materialPrices.max * materialWeight;
-            setNewBale((prev) => ({ ...prev, price: `${minPrice} - ${maxPrice}` }));
+            const totalPrice = materialPricePerKg * materialWeight;
+            setNewBale((prev) => ({ ...prev, price: `${totalPrice}` })); // Set single price
         }
     }
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         const formData = new FormData();
         formData.append('waste_type', newBale.waste_type);
         formData.append('weight', newBale.weight);
@@ -76,21 +78,21 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
         formData.append('phone_number', newBale.phone_number);
         formData.append('price', newBale.price);
         formData.append('posted_by', newBale.posted_by);
-    
+
         if (newBale.image) {
             formData.append('image', newBale.image);
         } else {
             toast.error('Please select an image file to upload.');
             return;
         }
-    
+
         try {
             setIsSubmitting(true);
             const response = await fetch('/api/textile-bales/', {
                 method: 'POST',
                 body: formData,
             });
-    
+
             if (response.ok) {
                 toast.success('Textile bale posted successfully!');
                 setFormVisible(false);
@@ -105,7 +107,7 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
             setIsSubmitting(false);
         }
     };
-    
+
     return (
         <div>
             <ToastContainer /> {/* Toast container for notifications */}
@@ -116,7 +118,7 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                     <div key={bale.bale_id} className="flex flex-col border-2 border-black-300 shadow-lg p-4 bg-white rounded-lg justify-around">
                         <div className='border-2 border-gray-300'>
                             <Image
-                                src={`${imageurl}${bale.image}` || '/mixed.jpg'}
+                                src={`${imageurl}${bale.image}` || '/logo.png'}
                                 alt={`Textile bale of type ${bale.waste_type}`}
                                 width={150}
                                 height={150}
@@ -209,16 +211,16 @@ function TextileBaleSeller({ textileBales, refetch }: { textileBales: TextileBal
                                 type="file"
                                 name="image"
                                 accept="image/*"
-                                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
                                 onChange={handleFileChange}
+                                className="bg-coldsteel rounded-[10px] px-3 py-5 w-full focus:outline-none focus:border-2"
                                 required
                             />
                             <button
                                 type="submit"
+                                className={`bg-artisticblue text-white py-3 rounded-lg ${isSubmitting ? 'cursor-not-allowed' : ''}`}
                                 disabled={isSubmitting}
-                                className="bg-green-600 text-white rounded-lg py-3 w-full hover:bg-green-700 transition"
                             >
-                                {isSubmitting ? <ClipLoader size={24} color="#fff" /> : 'Post'}
+                                {isSubmitting ? <ClipLoader size={20} color="#ffffff" /> : 'Submit'}
                             </button>
                         </form>
                     </div>
