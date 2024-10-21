@@ -35,7 +35,6 @@ function OrderTable({ data }: { data: OrderData[] }) {
           <tr>
             <th className="px-2 py-2 text-left">ORDER</th>
             <th className="px-2 py-2 text-left">PRODUCT</th>
-            <th className="px-2 py-2 text-left">STATUS</th>
             <th className="px-2 py-2 text-left">LOCATION</th>
             <th className="px-2 py-2 text-left">PRICE</th>
             <th className="px-2 py-2 text-left">PHONE NO.</th>
@@ -46,9 +45,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
             <tr key={order.id} className="border-b border-black-400 mb-5 bg-#F8F7F4">
               <td className="px-4 py-2 text-left bg-[F8F8F8]">{order.order_number}</td>
               <td className="px-4 py-2 text-left">{order.product}</td>
-              <td className="px-4 py-2 text-left" style={{ color: order.status === 'pending' ? 'red' : 'green' }}>
-                {order.status}
-              </td>
+            
               <td className="px-4 py-2 text-left">{order.location}</td>
               <td className="px-4 py-2 text-left">{order.total_price}</td>
               <td className="px-4 py-2 text-left">{order.phone_number ? order.phone_number : 'N/A'}</td>
