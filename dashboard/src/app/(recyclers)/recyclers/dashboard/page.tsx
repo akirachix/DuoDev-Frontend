@@ -11,14 +11,14 @@ function Dashboard() {
   return (
     <Layout >
       <div className=" overflow-x-hidden">
-        <h1 id='recyclers/dashboard' className='text-2xl font-bold text-center text-forestgreen mt-2 '>Dashboard</h1>
-        <div className='grid-cols-2  lg:ml-20 md:ml-10'>
-          <div  className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2   text-lg'>
-            <Monthly_Sales />
+        <h1 id='recyclers/dashboard' className='text-3xl font-bold text-center text-forestgreen mt-2 '>Dashboard</h1>
+        <div className='justify-around p-5'>
+          <div  className='justify-center mb-4'>
             <TotalSellers/>
           </div>
-          <div>
-            <Interacted_Traders />
+          <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 mt-10  text-lg'> 
+          <Monthly_Sales />
+          <Interacted_Traders />
           </div>
         </div>
       </div>

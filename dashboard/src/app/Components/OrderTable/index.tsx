@@ -7,6 +7,11 @@ function OrderTable({ data }: { data: OrderData[] }) {
   const [currentPage, setCurrentPage] = useState(1); 
   const ordersPerPage = 5; 
 
+  // Dummy phone numbers
+  const dummyPhoneNumbers = [
+    '254712345678', '254723456789', '254734567890', '254745678901', '254756789012', '254767890123'
+  ];
+
   // Calculate the total number of pages
   const totalPages = Math.ceil(data.length / ordersPerPage);
 
@@ -41,21 +46,19 @@ function OrderTable({ data }: { data: OrderData[] }) {
           </tr>
         </thead>
         <tbody>
-          {currentOrders.map((order: OrderData) => (
+          {currentOrders.map((order: OrderData, index: number) => (
             <tr key={order.id} className="border-b border-black-400 mb-5 bg-#F8F7F4">
               <td className="px-4 py-2 text-left bg-[F8F8F8]">{order.order_number}</td>
               <td className="px-4 py-2 text-left">{order.product}</td>
-            
               <td className="px-4 py-2 text-left">{order.location}</td>
               <td className="px-4 py-2 text-left">{order.total_price}</td>
-              <td className="px-4 py-2 text-left">{order.phone_number ? order.phone_number : 'N/A'}</td>
+              <td className="px-4 py-2 text-left">{dummyPhoneNumbers[index % dummyPhoneNumbers.length]}</td>
             </tr>
           ))}
         </tbody>
       </table>
 
       {/* Pagination controls */}
-      
       <div className="flex justify-between items-center mt-4">
         <button
           className="px-3 py-2 text-white bg-forestgreen rounded-md disabled:opacity-50"
@@ -70,7 +73,7 @@ function OrderTable({ data }: { data: OrderData[] }) {
         </span>
 
         <button
-          className="px-5 py-2  text-white bg-forestgreen rounded-md disabled:opacity-50 w-20"
+          className="px-5 py-2 text-white bg-forestgreen rounded-md disabled:opacity-50 w-20"
           onClick={nextPage}
           disabled={currentPage === totalPages}
         >
