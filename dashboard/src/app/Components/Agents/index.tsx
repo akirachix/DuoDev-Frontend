@@ -33,7 +33,7 @@ function AgentsComponent({ footAgent }: { footAgent: AgentsData[] }) {
     <div className="container mx-auto p-4" id='/recyclers/agents'>
       <ToastContainer />
 
-      <div className="bg-white shadow-lg rounded-lg p-10">
+      <div className="bg-white shadow-lg rounded-lg p-10 w-[80%] ml-[10%]">
         <table className="table-auto w-full border-collapse">
           <thead>
             <tr>
