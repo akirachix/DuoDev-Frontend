@@ -46,15 +46,12 @@ export default function SellerHomePage() {
     return (
         <div className="container mx-auto ">
             {/* Hero Section */}
-            <section className="hero bg-cover bg-center h-[60vh] p-12 text-white relative" style={{ backgroundImage: `url('/shopclothing.jpg')` }}>
-                <div className="absolute inset-0 bg-black opacity-50"></div> {/* Dark overlay */}
-                <div className="relative z-10">
-                    <h1 className="lg:text-6xl text-4xl font-bold mb-4 mt-[5%] lg:mt-[10%] text-shadow">Welcome to Eco-Threads Hub</h1>
-                    <p className="text-shadow text-xl">Discover competitive pricing for recycled textile materials. Browse through our price sheet and select your materials below.</p>
-                    <Link href={'/seller/posts'}>
-                        <button className="mt-6 bg-forestgreen text-white py-2 px-12 rounded-lg hover:bg-green-600 font-bold text-2xl transition">Start Selling</button>
-                    </Link>
-                </div>
+            <section className="hero bg-cover bg-center h-[60vh] p-12 text-white" style={{ backgroundImage: `url('/shopclothing.jpg')` }}>
+                <h1 className="lg:text-6xl text-4xl font-bold mb-4 mt-[5%] lg:mt-[10%]">Welcome to Eco-Threads Hub</h1>
+                <p className="text-lg">Discover competitive pricing for recycled textile materials. Browse through our price sheet and select your materials below.</p>
+                <Link href={'/seller/posts'}>
+                    <button className="mt-6 bg-forestgreen text-white py-2 px-12 rounded-lg hover:bg-green-600 transition">Start Selling</button>
+                </Link>
             </section>
 
             {/* Selected Material Details and Price Calculator */}
