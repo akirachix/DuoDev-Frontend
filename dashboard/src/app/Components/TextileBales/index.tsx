@@ -50,11 +50,9 @@ function TextileBaleComponent({ textileBales }: { textileBales: TextileBaleData[
               />
             </div>
             <div className=" gap-2 text-artisticblue text-md">
-              <p>Trader:   {bale.trader}</p>
               <p>Type: {bale.waste_type}</p>
-              <p>Contacts: {bale.phone_number ? bale.phone_number : 'N/A'}</p>
-              <p>Location: {bale.location}</p>
-              <p>Price: Ksh {bale.price}</p>
+              <p>Weight:{bale.weight}</p>
+              <p>Price: Ksh {bale.price}</p>              
               <button 
               onClick={() => handleAssignAgent(bale.bale_id)}
               className="bg-green-600 text-white text-md px-2 py-1 rounded font-semibold hover:bg-green-700 transition duration-300 w-30 justify-around">
