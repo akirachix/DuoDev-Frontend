@@ -43,17 +43,6 @@ export default function Sidebar() {
 
           <li>
             <Link
-              href="/recyclers/dashboard"
-              onClick={() => handleLinkClick("/recyclers/dashboard")}
-              className={`flex items-center p-2 text-white text-xl transition-all duration-300 hover:bg-forestgreen ${
-                activeLink === "/recyclers/dashboard" ? "text-forestgreen" : ""
-              }`}
-            >
-              <span className="ml-3">Dashboard</span>
-            </Link>
-          </li>
-          <li>
-            <Link
               href="/recyclers/agents"
               onClick={() => handleLinkClick("/recyclers/agents")}
               className={`flex items-center p-2 text-white text-xl transition-all duration-300 hover:bg-forestgreen ${
@@ -61,6 +50,18 @@ export default function Sidebar() {
               }`}
             >
               <span className="ml-3">Agents</span>
+            </Link>
+          </li>
+
+          <li>
+          <Link
+              href="/recyclers/market"
+              onClick={() => handleLinkClick("/recyclers/market")}
+              className={`flex items-center p-2 text-white text-xl transition-all duration-300  hover:bg-forestgreen ${
+                activeLink === "/recyclers/market" ? "text-forestgreen" : ""
+              }`}
+            >
+              <span className="ml-3">Market</span>
             </Link>
           </li>
 
@@ -75,6 +76,19 @@ export default function Sidebar() {
               <span className="ml-3">Orders</span>
             </Link>
           </li>
+
+          <li>
+            <Link
+              href="/recyclers/dashboard"
+              onClick={() => handleLinkClick("/recyclers/dashboard")}
+              className={`flex items-center p-2 text-white text-xl transition-all duration-300 hover:bg-forestgreen ${
+                activeLink === "/recyclers/dashboard" ? "text-forestgreen" : ""
+              }`}
+            >
+              <span className="ml-3">Dashboard</span>
+            </Link>
+          </li>
+         
         </ul>
       </nav>
     </div>
