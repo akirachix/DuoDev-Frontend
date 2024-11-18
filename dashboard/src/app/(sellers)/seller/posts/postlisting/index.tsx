@@ -7,11 +7,6 @@ import { PuffLoader } from 'react-spinners';
 export default function PostListing() {
   const { bales, loading, error, refetch } = useGetBales();
 
-  // Sort bales to show the latest post at the top
-  const sortedBales = bales.sort((a, b) => {
-    return new Date(b.upload_date).getTime() - new Date(a.upload_date).getTime(); // Adjust property if needed
-  });
-
   return (
     <div>
       {loading ? (
@@ -22,7 +17,8 @@ export default function PostListing() {
       ) : error ? (
         <p className="text-red-500">{error}</p>
       ) : (
-        <TextileBaleSeller textileBales={sortedBales} refetch={refetch} />
+        
+        <TextileBaleSeller textileBales={bales} refetch={refetch}/>
       )}
     </div>
   );
