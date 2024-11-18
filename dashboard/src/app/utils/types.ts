@@ -80,3 +80,25 @@ export  interface OrderData {
       export interface SellersData {
         sellers: string[];
       }
+
+
+
+      // market/types.ts
+
+// utils/types.ts
+
+export interface Product {
+  product_id: number;
+  product_name: string;
+  price: string;
+  material: string;
+  description?: string | null;
+  trader?: number;
+  image?: File | null;
+}
+
+export interface ApiResponse {
+  detail: string;
+}
+
+
